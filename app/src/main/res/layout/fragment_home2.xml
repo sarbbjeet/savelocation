@@ -11,14 +11,21 @@
     android:id="@+id/google_map"
     android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
-
-    <Button
-        android:id="@+id/btn_getLocation"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/current_location_btn"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_layout_button"
+        android:id="@+id/getLocation"
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
-        android:backgroundTint="#660000FF"
-        />
+        >
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/current_location_btn"
+            android:padding="10dp"
+            />
+    </LinearLayout>
+
+
 </FrameLayout>

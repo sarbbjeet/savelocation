@@ -64,7 +64,7 @@ public class home extends Fragment{
                 });
                         //ask for gps permission
 
-                view.findViewById(R.id.btn_getLocation).setOnClickListener(new View.OnClickListener() {
+                view.findViewById(R.id.getLocation).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         getLocation.clickLoc();
