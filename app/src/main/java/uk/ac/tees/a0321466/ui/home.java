@@ -1,35 +1,35 @@
 package uk.ac.tees.a0321466.ui;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Location;
+
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import uk.ac.tees.a0321466.R;
 import uk.ac.tees.a0321466.javaClass.currentLocation;
+import uk.ac.tees.a0321466.javaClass.getNearByLocationApi;
 import uk.ac.tees.a0321466.javaClass.globalVariables;
 import uk.ac.tees.a0321466.javaClass.mapPermission;
 import uk.ac.tees.a0321466.javaClass.onCustomCallback;
+import uk.ac.tees.a0321466.javaClass.volleyResponseListener;
+import uk.ac.tees.a0321466.model.nearbyLocationApiHandler;
 
 import static uk.ac.tees.a0321466.javaClass.globalVariables.search_type;
 
@@ -40,9 +40,10 @@ public class home extends Fragment {
   //  private Location getCurrentLocation;
     //create reference to classes
     private currentLocation getLocation;
-    mapPermission mPermission;
-    globalVariables gVariables;
-
+    private mapPermission mPermission;
+    private globalVariables gVariables;
+    private getNearByLocationApi getNearByLocation_api;
+    private nearbyLocationApiHandler apiHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,14 +51,19 @@ public class home extends Fragment {
 
         //Initialize global variables class
         gVariables = new globalVariables();
+
+        //initialize volley library class to get api
+        getNearByLocation_api = new getNearByLocationApi(getActivity());
+       //api handler model class initialize
+        apiHandler = new nearbyLocationApiHandler();
+
         //Initialize view
         View view=inflater.inflate(R.layout.fragment_home2,container,false);
 
-     //spinner to select nearby location type//////////////////////
+     //spinner to select nearby location type/////////////////////////////////////////////////////
        Spinner spnr = view.findViewById(R.id.spinner1);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, search_type);
-
         spnr.setAdapter(adapter);
         spnr.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
@@ -68,7 +74,24 @@ public class home extends Fragment {
 
                         int position = spnr.getSelectedItemPosition();
                         if(search_type[position] !="None") {
-                            Toast.makeText(getActivity(), gVariables.nearByLocationUrl(23.5688, -1.4575, search_type[position]), Toast.LENGTH_LONG).show();
+                            String httpUrl=gVariables.nearByLocationUrl(54.568760,-1.240210,search_type[position]);
+
+       /////////////////http call to volley library to get api response////////////////////////////////////////
+                            getNearByLocation_api.httpRequest(httpUrl, new volleyResponseListener() {
+                                @Override
+                                public void onError(VolleyError err) {
+                                    Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void onResponse(JSONObject jsonObject) {
+                                    apiHandler.setNearbyApi(jsonObject);
+                                    getLocation.setMapMarkers(apiHandler.getlatLngs(),apiHandler.getNames());
+                                   // Toast.makeText(getActivity(), String.valueOf(apiHandler.getlatLngs()) , Toast.LENGTH_LONG).show();
+
+                                }
+                            });
+                          //  Toast.makeText(getActivity(), gVariables.nearByLocationUrl(23.5688, -1.4575, search_type[position]), Toast.LENGTH_LONG).show();
                         }
                         // TODO Auto-generated method stub
                     }
@@ -78,7 +101,7 @@ public class home extends Fragment {
 
                     }
                 });
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     //map fragment initilize
         SupportMapFragment supportMapFragment=(SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.google_map);
@@ -88,7 +111,7 @@ public class home extends Fragment {
         ///initailize location provider client
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-        //map Async
+ //////////////////////MAP Async   ///////////////////////////////////////////////////////////////////////////////////
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
@@ -98,29 +121,18 @@ public class home extends Fragment {
                     @Override
                     public void gpsEnableDone() {
                         //display current location on the map once map permission enable
-                        getLocation.clickLoc();
+                        getLocation.clickLoc();  //current location getter
 //                        Toast.makeText(getActivity(),"gps..",Toast.LENGTH_SHORT).show();
                     }
                 });
-                        //ask for gps permission
-
+       //////////////current location event button ///////////////////////////////////////////////
                 view.findViewById(R.id.getLocation).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         getLocation.clickLoc();
                     }
                 });
-
-
-                //when map is loaded
-                //firstly check, Is gps permissions are enable or not
-//                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-//                        PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                    //give gps permission
-//                    new mapPermission(getActivity());
-//                    //return;
-//                }
-//                getLocation = new currentLocation(getActivity(), mFusedLocationProviderClient, mMap);
+    ///////////////////////////////////////////////////////////////////////////////////////
 
             }
         });

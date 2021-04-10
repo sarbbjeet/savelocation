@@ -15,18 +15,17 @@ public class globalVariables {
     public static  final int VOLLEY_TIMEOUT=10000;  //10s timeout set of volley library response time
 
     public LatLng currentLatlng;
-
-   public static final String[] search_type = {
+    public static final String[] search_type = {
             "None",
-            "Gym",
-            "Hospital",
-            "Hotal",
-            "Bank",
-            "Fuel Station",
-            "School",
-            "University",
-            "Bus stand",
-            "Airport"
+            "gym",
+            "hospital",
+            "hotal",
+            "bank",
+            "post_office",
+            "school",
+            "university",
+            "train_station",
+            "airport"
     };
 
     public globalVariables() {

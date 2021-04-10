@@ -7,6 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,11 +22,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import uk.ac.tees.a0321466.R;
 
@@ -41,6 +48,18 @@ public class currentLocation extends AppCompatActivity {
         mFusedLocationProviderClient = _mFusedLocationProviderClient;
         mMap = _map;
         gVariables = new globalVariables(); // initilize global variable class
+
+   ////////////////////google map marker infoWindow click listener ////////////////////////
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Toast.makeText(mActivity,marker.getSnippet(), Toast.LENGTH_LONG).show();
+
+
+            }
+
+        });
     }
     public void clickLoc(){
 
@@ -76,19 +95,39 @@ public class currentLocation extends AppCompatActivity {
     /* This method used to create map marker according to receive api lat/lng array value
     and display station name and connection type
      */
-    public void setMapMarkers(ArrayList<LatLng> latLngs, ArrayList<String>stationName, ArrayList<String>connectionType){
-        for(int i=0;i<latLngs.size();i++){
-            mMap.addMarker(new MarkerOptions().position(latLngs.get(i)).snippet(connectionType.get(i)).title(
-                    stationName.get(i)).icon(BitmapFromVector(mActivity, R.drawable.map_marker_icon)));
+//    public void setMapMarkers(ArrayList<LatLng> latLngs, ArrayList<String>stationName, ArrayList<String>connectionType){
+//        for(int i=0;i<latLngs.size();i++){
+//            mMap.addMarker(new MarkerOptions().position(latLngs.get(i)).snippet(connectionType.get(i)).title(
+//                    stationName.get(i)).icon(BitmapFromVector(mActivity, R.drawable.map_marker_icon)));
+//
+//            //mMap.addMarker(new MarkerOptions().position(latLngs.get(i)).snippet(connectionType.get(i)).title(
+//            //      stationName.get(i)).icon(BitmapFromVector(mActivity, R.drawable.map_marker_icon)));
+//
+//
+//        }
+//    }
 
+    public void setMapMarkers(ArrayList<LatLng> latLngs, ArrayList<String> names) {
+        mMap.clear();  //remove set markers from the google map
+
+        //set again current location marker
+        LatLng current_latLng = new LatLng(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(current_latLng).title("My Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.mycar)));
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(current_latLng, DEFAULT_ZOOM);
+        mMap.animateCamera(location);
+
+        for (int i = 0; i < latLngs.size(); i++) {
+            mMap.addMarker(new MarkerOptions().position(latLngs.get(i)).title(
+                    names.get(i)).snippet(String.valueOf(i)).icon(BitmapFromVector(mActivity, R.drawable.map_marker_icon)));
+
+
+//            Picasso.with(mActivity).load(url).resize(84, 125).into(target);
             //mMap.addMarker(new MarkerOptions().position(latLngs.get(i)).snippet(connectionType.get(i)).title(
             //      stationName.get(i)).icon(BitmapFromVector(mActivity, R.drawable.map_marker_icon)));
 
-
         }
-
-
     }
+
     //map focus towards current location
     public void pointBackCurrentLocation(){
         //LatLng defaultLocation= new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
@@ -120,6 +159,7 @@ public class currentLocation extends AppCompatActivity {
         // after generating our bitmap we are returning our bitmap.
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+
 
 }
 
