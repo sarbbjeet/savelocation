@@ -116,12 +116,13 @@ public class home extends Fragment {
         ///initailize location provider client
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
+
  //////////////////////MAP Async   ///////////////////////////////////////////////////////////////////////////////////
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap=googleMap;
-                getLocation=new currentLocation(getContext(),mFusedLocationProviderClient,mMap);
+                getLocation=new currentLocation(home.this,getActivity(),mFusedLocationProviderClient,mMap);
                 new mapPermission(getActivity(), new onCustomCallback() {  //hit callback once gps permission enable
                     @Override
                     public void gpsEnableDone() {
@@ -135,11 +136,10 @@ public class home extends Fragment {
                     @Override
                     public void onClick(View view) {
                         getLocation.clickLoc();
-//                        displayClickedLocation dd= new displayClickedLocation();
-//                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-//
-//                        fragmentTransaction.replace(R.id.nav_host_fragment, dd);
-//                        //fragmentTransaction.addToBackStack(null);
+                        Fragment ff= new displayClickedLocation();
+                        FragmentTransaction fragmentTransaction =getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.nav_host_fragment, ff).commit();
+////                        //fragmentTransaction.addToBackStack(null);
 //                        fragmentTransaction.commit();
 
 

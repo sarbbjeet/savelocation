@@ -3,7 +3,6 @@ package uk.ac.tees.a0321466.javaClass;
 import android.app.Activity;
 import androidx.fragment.app.Fragment;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdate;
@@ -40,40 +41,39 @@ import java.util.concurrent.ExecutionException;
 import uk.ac.tees.a0321466.R;
 import uk.ac.tees.a0321466.displayClickedLocation;
 import uk.ac.tees.a0321466.display_location_details;
+import uk.ac.tees.a0321466.ui.home;
 import uk.ac.tees.a0321466.ui.profile;
 
 import static uk.ac.tees.a0321466.javaClass.globalVariables.DEFAULT_ZOOM;
-public class currentLocation extends AppCompatActivity {
+public class currentLocation extends Fragment {
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Location getCurrentLocation;
     GoogleMap mMap;
     Context mActivity;
     globalVariables gVariables;  //global variable class
+    FragmentManager fm;
 
-    public currentLocation(Context _mActivity,FusedLocationProviderClient _mFusedLocationProviderClient, GoogleMap _map) {
+
+    //constructor of currentLocation class and below parameters are passing by called class
+    public currentLocation(uk.ac.tees.a0321466.ui.home home, Context _mActivity, FusedLocationProviderClient _mFusedLocationProviderClient, GoogleMap _map) {
         mActivity = _mActivity;
         mFusedLocationProviderClient = _mFusedLocationProviderClient;
         mMap = _map;
         gVariables = new globalVariables(); // initilize global variable class
+        fm= home.getFragmentManager();  //connect getFragmentManager with home.this instance
 
-   ////////////////////google map marker infoWindow click listener ////////////////////////
+        ////////////////////google map marker infoWindow click listener ////////////////////////
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
             @Override
             public void onInfoWindowClick(Marker marker) {
-                displayClickedLocation dd= new displayClickedLocation();
-        //        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-//
-//                        fragmentTransaction.replace(R.id.nav_host_fragment, dd);
-//                        //fragmentTransaction.addToBackStack(null);
-//                        fragmentTransaction.commit();
-                Intent i1= new Intent(mActivity,display_location_details.class);
-                startActivity(i1);
-                Toast.makeText(mActivity,marker.getSnippet(), Toast.LENGTH_LONG).show();
-
-
-
+                //code used to call new fragment "displayClickLocation"
+                //this new fragment show details of map marker location point where user click
+                Fragment ff= new displayClickedLocation();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.nav_host_fragment, ff).commit();
+                //Toast.makeText(mActivity,marker.getSnippet(), Toast.LENGTH_LONG).show();
             }
 
         });
@@ -179,6 +179,3 @@ public class currentLocation extends AppCompatActivity {
 
 
 }
-
-
-
