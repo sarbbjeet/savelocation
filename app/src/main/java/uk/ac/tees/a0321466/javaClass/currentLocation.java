@@ -1,7 +1,11 @@
 package uk.ac.tees.a0321466.javaClass;
 
 import android.app.Activity;
+import androidx.fragment.app.Fragment;
+
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -14,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdate;
@@ -33,6 +38,9 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import uk.ac.tees.a0321466.R;
+import uk.ac.tees.a0321466.displayClickedLocation;
+import uk.ac.tees.a0321466.display_location_details;
+import uk.ac.tees.a0321466.ui.profile;
 
 import static uk.ac.tees.a0321466.javaClass.globalVariables.DEFAULT_ZOOM;
 public class currentLocation extends AppCompatActivity {
@@ -54,7 +62,16 @@ public class currentLocation extends AppCompatActivity {
 
             @Override
             public void onInfoWindowClick(Marker marker) {
+                displayClickedLocation dd= new displayClickedLocation();
+        //        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//
+//                        fragmentTransaction.replace(R.id.nav_host_fragment, dd);
+//                        //fragmentTransaction.addToBackStack(null);
+//                        fragmentTransaction.commit();
+                Intent i1= new Intent(mActivity,display_location_details.class);
+                startActivity(i1);
                 Toast.makeText(mActivity,marker.getSnippet(), Toast.LENGTH_LONG).show();
+
 
 
             }

@@ -1,9 +1,12 @@
 package uk.ac.tees.a0321466.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import uk.ac.tees.a0321466.R;
+import uk.ac.tees.a0321466.displayClickedLocation;
+import uk.ac.tees.a0321466.display_location_details;
 import uk.ac.tees.a0321466.javaClass.currentLocation;
 import uk.ac.tees.a0321466.javaClass.getNearByLocationApi;
 import uk.ac.tees.a0321466.javaClass.globalVariables;
@@ -116,7 +121,7 @@ public class home extends Fragment {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap=googleMap;
-                getLocation=new currentLocation(getActivity(),mFusedLocationProviderClient,mMap);
+                getLocation=new currentLocation(getContext(),mFusedLocationProviderClient,mMap);
                 new mapPermission(getActivity(), new onCustomCallback() {  //hit callback once gps permission enable
                     @Override
                     public void gpsEnableDone() {
@@ -130,6 +135,17 @@ public class home extends Fragment {
                     @Override
                     public void onClick(View view) {
                         getLocation.clickLoc();
+//                        displayClickedLocation dd= new displayClickedLocation();
+//                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//
+//                        fragmentTransaction.replace(R.id.nav_host_fragment, dd);
+//                        //fragmentTransaction.addToBackStack(null);
+//                        fragmentTransaction.commit();
+
+
+//                        Intent i1= new Intent(getActivity(), display_location_details.class);
+//                        startActivity(i1);
+
                     }
                 });
     ///////////////////////////////////////////////////////////////////////////////////////
