@@ -59,7 +59,7 @@ public class mapPermission extends AppCompatActivity {
         if (!provider.contains("gps")) {
             enableGPS();
         } else {
-            Toast.makeText(contextActivity,"gPS connect", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(contextActivity,"gPS connect", Toast.LENGTH_SHORT).show();
 
 //            _mp.onEvent();
 

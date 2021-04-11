@@ -91,6 +91,7 @@ public class home extends Fragment {
                                 @Override
                                 public void onResponse(JSONObject jsonObject) {
                                     apiHandler.setNearbyApi(jsonObject);
+                                    //send lat/lng and  name of location for create map marker
                                     getLocation.setMapMarkers(apiHandler.getlatLngs(),apiHandler.getNames());
                                    // Toast.makeText(getActivity(), String.valueOf(apiHandler.getlatLngs()) , Toast.LENGTH_LONG).show();
 
@@ -127,24 +128,20 @@ public class home extends Fragment {
                     @Override
                     public void gpsEnableDone() {
                         //display current location on the map once map permission enable
-                        getLocation.clickLoc();  //current location getter
-//                        Toast.makeText(getActivity(),"gps..",Toast.LENGTH_SHORT).show();
+                        getLocation.pointBackCurrentLocation();  //current location getter
+
                     }
                 });
        //////////////current location event button ///////////////////////////////////////////////
                 view.findViewById(R.id.getLocation).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        getLocation.clickLoc();
-                        Fragment ff= new displayClickedLocation();
-                        FragmentTransaction fragmentTransaction =getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.nav_host_fragment, ff).commit();
+                        getLocation.pointBackCurrentLocation();
+//                        Fragment ff= new displayClickedLocation();
+//                        FragmentTransaction fragmentTransaction =getFragmentManager().beginTransaction();
+//                        fragmentTransaction.replace(R.id.nav_host_fragment, ff);
 ////                        //fragmentTransaction.addToBackStack(null);
 //                        fragmentTransaction.commit();
-
-
-//                        Intent i1= new Intent(getActivity(), display_location_details.class);
-//                        startActivity(i1);
 
                     }
                 });

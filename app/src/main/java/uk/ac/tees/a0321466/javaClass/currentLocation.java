@@ -45,6 +45,7 @@ import uk.ac.tees.a0321466.ui.home;
 import uk.ac.tees.a0321466.ui.profile;
 
 import static uk.ac.tees.a0321466.javaClass.globalVariables.DEFAULT_ZOOM;
+import static uk.ac.tees.a0321466.javaClass.globalVariables.default_LatLng;
 public class currentLocation extends Fragment {
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -53,6 +54,8 @@ public class currentLocation extends Fragment {
     Context mActivity;
     globalVariables gVariables;  //global variable class
     FragmentManager fm;
+    LatLng current_latLng =new LatLng(0.0,0.0); //latitude & longitude of current location
+
 
 
     //constructor of currentLocation class and below parameters are passing by called class
@@ -60,7 +63,7 @@ public class currentLocation extends Fragment {
         mActivity = _mActivity;
         mFusedLocationProviderClient = _mFusedLocationProviderClient;
         mMap = _map;
-        gVariables = new globalVariables(); // initilize global variable class
+        //gVariables = new globalVariables(); // initilize global variable class
         fm= home.getFragmentManager();  //connect getFragmentManager with home.this instance
 
         ////////////////////google map marker infoWindow click listener ////////////////////////
@@ -72,42 +75,15 @@ public class currentLocation extends Fragment {
                 //this new fragment show details of map marker location point where user click
                 Fragment ff= new displayClickedLocation();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_host_fragment, ff).commit();
+                fragmentTransaction.replace(R.id.nav_host_fragment, ff);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 //Toast.makeText(mActivity,marker.getSnippet(), Toast.LENGTH_LONG).show();
             }
 
         });
     }
-    public void clickLoc(){
 
-        try {
-            Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
-            locationResult.addOnCompleteListener((Activity) mActivity, new OnCompleteListener<Location>() {
-
-                @Override
-                public void onComplete(@NonNull Task<Location> task) {
-                    if (task.isSuccessful()) {
-                        // Set the map's camera position to the current location of the device.
-                        getCurrentLocation = task.getResult();
-                        if (getCurrentLocation != null) {
-                            //  LatLng defaultLocation= new LatLng(54.5742982466006, -1.2349123090100282);
-                            // LatLng latLng = new LatLng(54.5742982466006, -1.2349123090100282);
-                            LatLng current_latLng= new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
-                            gVariables.setCurrentLatlng(current_latLng);  //set current lat and lng to global variable class
-                            //  mMap.addMarker(new MarkerOptions().position(latLng).title("electric car house").icon(BitmapDescriptorFactory.fromResource(R.drawable.electric_img)));
-                            mMap.addMarker(new MarkerOptions().position(current_latLng).title("My Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.mycar)));
-                            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(current_latLng,DEFAULT_ZOOM);
-                            mMap.animateCamera(location);
-
-                        }
-                    }
-                }
-            });
-
-        } catch (SecurityException e) {
-            Log.e("Exception: %s", e.getMessage(), e);
-        }
-    }
 
     /* This method used to create map marker according to receive api lat/lng array value
     and display station name and connection type
@@ -128,9 +104,8 @@ public class currentLocation extends Fragment {
         mMap.clear();  //remove set markers from the google map
 
         //set again current location marker
-        LatLng current_latLng = new LatLng(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude());
         mMap.addMarker(new MarkerOptions().position(current_latLng).title("My Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.mycar)));
-        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(current_latLng, DEFAULT_ZOOM);
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom((current_latLng), DEFAULT_ZOOM);
         mMap.animateCamera(location);
 
         for (int i = 0; i < latLngs.size(); i++) {
@@ -145,11 +120,42 @@ public class currentLocation extends Fragment {
         }
     }
 
-    //map focus towards current location
-    public void pointBackCurrentLocation(){
-        //LatLng defaultLocation= new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
-        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(gVariables.getCurrentLatlng(),DEFAULT_ZOOM);
-        mMap.animateCamera(location);
+    //map focus towards current location and get current location latitude and longitude
+    public void pointBackCurrentLocation() {
+
+        try {
+            Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
+            locationResult.addOnCompleteListener((Activity) mActivity, new OnCompleteListener<Location>() {
+
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    if (task.isSuccessful()) {
+                        // Set the map's camera position to the current location of the device.
+                        getCurrentLocation = task.getResult();
+                        if (getCurrentLocation != null ) {
+                            if(current_latLng.latitude != getCurrentLocation.getLatitude() && current_latLng.longitude != getCurrentLocation.getLongitude()){
+
+                                current_latLng = new LatLng(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude());
+                                mMap.addMarker(new MarkerOptions().position(current_latLng).title("My Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.mycar)));
+                            }
+
+                        } else {
+                            //Toast.makeText(getActivity(),"gps not here", Toast.LENGTH_SHORT).show();
+                            mMap.clear(); //clear previous markers
+                            current_latLng = default_LatLng;
+                            mMap.addMarker(new MarkerOptions().position(current_latLng).title("My Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.mycar)));
+                        }
+
+                        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(current_latLng,DEFAULT_ZOOM);
+                        mMap.animateCamera(location);
+                    }
+                }
+            });
+
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage(), e);
+        }
+
     }
 
 
