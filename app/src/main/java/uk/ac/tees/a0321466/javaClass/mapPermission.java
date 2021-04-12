@@ -15,7 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import static uk.ac.tees.a0321466.javaClass.globalVariables.REQUEST_CODE;
+import static uk.ac.tees.a0321466.javaClass.GlobalClass.REQUEST_CODE;
 public class mapPermission extends AppCompatActivity {
     private Context contextActivity;
     //MapsActivity.OnCustomEventListener _mp;

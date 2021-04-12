@@ -1,8 +1,12 @@
 package uk.ac.tees.a0321466.javaClass;
 
+import android.app.Application;
+
 import com.google.android.gms.maps.model.LatLng;
 
-public class globalVariables {
+import org.json.JSONObject;
+
+public class GlobalClass extends Application {
     //all global parameter defined here //
     public static final float DEFAULT_ZOOM = 14;  //map zoom value
     public static final int REQUEST_CODE = 2222;
@@ -16,6 +20,9 @@ public class globalVariables {
 
     //default latitude and longitude of "Tennyson street,Middlebrough"
     public static final LatLng default_LatLng = new LatLng(54.568760, -1.240210);
+
+
+    public JSONObject nearbyApi;
     //Below array is used to create spinner list, which help to search different nearby locations
     public static final String[] search_type = {
             "None",
@@ -30,9 +37,9 @@ public class globalVariables {
             "airport"
     };
 
-    public globalVariables() {
+    public GlobalClass() {
     }
-
+     //create url link
     public String nearByLocationUrl(double lat, double lng, String searchType) {
         String _lat = String.valueOf(lat); ///convert double to string
         String _lng = String.valueOf(lng); ///convert double to string
@@ -41,5 +48,15 @@ public class globalVariables {
 
         return url;
     }
+
+    public JSONObject getNearbyApi() {
+        return nearbyApi;
+    }
+
+    public void setNearbyApi(JSONObject nearbyApi) {
+        this.nearbyApi = nearbyApi;
+    }
+
+
 }
 

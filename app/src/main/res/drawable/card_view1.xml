@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<item>
+    <shape android:shape="rectangle">
+        <stroke android:width="2dp" android:color="#dddddd">
+        </stroke>
+        <corners android:radius="@dimen/cardview_compat_inset_shadow"
+    ></corners>
+        <gradient android:gradientRadius="@dimen/cardview_compat_inset_shadow"></gradient>
+    </shape>
+
+</item>
+
+
+</selector>

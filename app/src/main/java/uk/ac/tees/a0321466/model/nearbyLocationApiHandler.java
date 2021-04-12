@@ -9,23 +9,26 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class nearbyLocationApiHandler {
-    private JSONObject nearbyApi;
+    private JSONObject nearbyApi =new JSONObject();
     private double lat,lng;
     private String name,iconImg, addr,businessStatus;
     boolean isOpenNow,permanentlyClosed;
-    float rating;
+    double rating;
     private ArrayList<LatLng> latLng = new ArrayList<LatLng>();
     private ArrayList<String> names= new ArrayList<String>();
     public nearbyLocationApiHandler() {
     }
 
+
     public JSONObject getNearbyApi() {
         return nearbyApi;
     }
 
-    public void setNearbyApi(JSONObject nearbyApi) {
-        this.nearbyApi = nearbyApi;
+    public void setNearbyApi(JSONObject nearbyApi1) {
+        nearbyApi = nearbyApi1;
     }
+
+
 
     //get name of all locations  //
     public ArrayList<String> getNames() {
@@ -162,7 +165,14 @@ public class nearbyLocationApiHandler {
         return permanentlyClosed;
     }
 
-    public float getRating() {
+    public double getRating(int index) {
+        try {
+            JSONArray res = nearbyApi.getJSONArray("results");
+            JSONObject element = (JSONObject) res.get(index);
+            rating =  element.getDouble("rating");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return rating;
     }
 

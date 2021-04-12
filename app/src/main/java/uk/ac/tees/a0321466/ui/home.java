@@ -1,11 +1,9 @@
 package uk.ac.tees.a0321466.ui;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,21 +20,18 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import uk.ac.tees.a0321466.R;
-import uk.ac.tees.a0321466.displayClickedLocation;
-import uk.ac.tees.a0321466.display_location_details;
 import uk.ac.tees.a0321466.javaClass.currentLocation;
 import uk.ac.tees.a0321466.javaClass.getNearByLocationApi;
-import uk.ac.tees.a0321466.javaClass.globalVariables;
+import uk.ac.tees.a0321466.javaClass.GlobalClass;
 import uk.ac.tees.a0321466.javaClass.mapPermission;
 import uk.ac.tees.a0321466.javaClass.onCustomCallback;
 import uk.ac.tees.a0321466.javaClass.volleyResponseListener;
 import uk.ac.tees.a0321466.model.nearbyLocationApiHandler;
 
-import static uk.ac.tees.a0321466.javaClass.globalVariables.search_type;
+import static uk.ac.tees.a0321466.javaClass.GlobalClass.search_type;
 
 public class home extends Fragment {
 
@@ -46,7 +41,7 @@ public class home extends Fragment {
     //create reference to classes
     private currentLocation getLocation;
     private mapPermission mPermission;
-    private globalVariables gVariables;
+    private GlobalClass gVariables;
     private getNearByLocationApi getNearByLocation_api;
     private nearbyLocationApiHandler apiHandler;
 
@@ -55,7 +50,12 @@ public class home extends Fragment {
                              Bundle savedInstanceState) {
 
         //Initialize global variables class
-        gVariables = new globalVariables();
+        /*
+      below written lines for set and get variables/data from GlobalClass when we are
+      working with fragments.If you want to set/get in Activities then use
+        this way "gVariables=(GlobalClass)getApplicationContext();"
+         */
+        gVariables = (GlobalClass)getActivity().getApplication();
 
         //initialize volley library class to get api
         getNearByLocation_api = new getNearByLocationApi(getActivity());
@@ -78,7 +78,7 @@ public class home extends Fragment {
                                                int arg2, long arg3) {
 
                         int position = spnr.getSelectedItemPosition();
-                        if(search_type[position] !="None") {
+                        if(search_type[position] !="None") {        //need some modification here
                             String httpUrl=gVariables.nearByLocationUrl(54.568760,-1.240210,search_type[position]);
 
        /////////////////http call to volley library to get api response////////////////////////////////////////
@@ -90,8 +90,9 @@ public class home extends Fragment {
 
                                 @Override
                                 public void onResponse(JSONObject jsonObject) {
+                                    gVariables.setNearbyApi(jsonObject);
                                     apiHandler.setNearbyApi(jsonObject);
-                                    //send lat/lng and  name of location for create map marker
+                                    //send lat/lng and  name of locations to create map marker
                                     getLocation.setMapMarkers(apiHandler.getlatLngs(),apiHandler.getNames());
                                    // Toast.makeText(getActivity(), String.valueOf(apiHandler.getlatLngs()) , Toast.LENGTH_LONG).show();
 

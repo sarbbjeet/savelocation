@@ -1,23 +1,25 @@
-package uk.ac.tees.a0321466.javaClass;
 
+/*
+I am using this class to get current device location and
+create markers according to lat/lng values which are received from google nearby location
+api. After creating the marker this class have methods to open new fragment to display clicked
+marker location complete details.
+ */
+
+package uk.ac.tees.a0321466.javaClass;
 import android.app.Activity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -32,30 +34,22 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.koushikdutta.ion.Ion;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import uk.ac.tees.a0321466.R;
 import uk.ac.tees.a0321466.displayClickedLocation;
-import uk.ac.tees.a0321466.display_location_details;
-import uk.ac.tees.a0321466.ui.home;
-import uk.ac.tees.a0321466.ui.profile;
 
-import static uk.ac.tees.a0321466.javaClass.globalVariables.DEFAULT_ZOOM;
-import static uk.ac.tees.a0321466.javaClass.globalVariables.default_LatLng;
+import static uk.ac.tees.a0321466.javaClass.GlobalClass.DEFAULT_ZOOM;
+import static uk.ac.tees.a0321466.javaClass.GlobalClass.default_LatLng;
 public class currentLocation extends Fragment {
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Location getCurrentLocation;
     GoogleMap mMap;
     Context mActivity;
-    globalVariables gVariables;  //global variable class
     FragmentManager fm;
     LatLng current_latLng =new LatLng(0.0,0.0); //latitude & longitude of current location
-
 
 
     //constructor of currentLocation class and below parameters are passing by called class
@@ -63,17 +57,20 @@ public class currentLocation extends Fragment {
         mActivity = _mActivity;
         mFusedLocationProviderClient = _mFusedLocationProviderClient;
         mMap = _map;
-        //gVariables = new globalVariables(); // initilize global variable class
         fm= home.getFragmentManager();  //connect getFragmentManager with home.this instance
+
 
         ////////////////////google map marker infoWindow click listener ////////////////////////
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
             @Override
             public void onInfoWindowClick(Marker marker) {
                 //code used to call new fragment "displayClickLocation"
                 //this new fragment show details of map marker location point where user click
                 Fragment ff= new displayClickedLocation();
+                Bundle bundle = new Bundle();
+                bundle.putInt("index",Integer.valueOf(marker.getSnippet())); //pass "index of clicked marker location" to the new fragment
+                ff.setArguments(bundle);
+
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.replace(R.id.nav_host_fragment, ff);
                 fragmentTransaction.addToBackStack(null);
@@ -85,21 +82,9 @@ public class currentLocation extends Fragment {
     }
 
 
-    /* This method used to create map marker according to receive api lat/lng array value
-    and display station name and connection type
-     */
-//    public void setMapMarkers(ArrayList<LatLng> latLngs, ArrayList<String>stationName, ArrayList<String>connectionType){
-//        for(int i=0;i<latLngs.size();i++){
-//            mMap.addMarker(new MarkerOptions().position(latLngs.get(i)).snippet(connectionType.get(i)).title(
-//                    stationName.get(i)).icon(BitmapFromVector(mActivity, R.drawable.map_marker_icon)));
-//
-//            //mMap.addMarker(new MarkerOptions().position(latLngs.get(i)).snippet(connectionType.get(i)).title(
-//            //      stationName.get(i)).icon(BitmapFromVector(mActivity, R.drawable.map_marker_icon)));
-//
-//
-//        }
-//    }
-
+/*
+function to create markers on the google map
+ */
     public void setMapMarkers(ArrayList<LatLng> latLngs, ArrayList<String> names) {
         mMap.clear();  //remove set markers from the google map
 

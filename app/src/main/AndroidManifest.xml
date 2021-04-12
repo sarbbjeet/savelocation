@@ -20,8 +20,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".javaClass.GlobalClass"
         android:theme="@style/Theme.PlugPoint">
-        <activity android:name=".display_location_details"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
