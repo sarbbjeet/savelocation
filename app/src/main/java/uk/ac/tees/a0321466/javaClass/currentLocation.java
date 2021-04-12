@@ -38,7 +38,7 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 
 import uk.ac.tees.a0321466.R;
-import uk.ac.tees.a0321466.displayClickedLocation;
+import uk.ac.tees.a0321466.ui.locationDetailFragment;
 
 import static uk.ac.tees.a0321466.javaClass.GlobalClass.DEFAULT_ZOOM;
 import static uk.ac.tees.a0321466.javaClass.GlobalClass.default_LatLng;
@@ -66,7 +66,7 @@ public class currentLocation extends Fragment {
             public void onInfoWindowClick(Marker marker) {
                 //code used to call new fragment "displayClickLocation"
                 //this new fragment show details of map marker location point where user click
-                Fragment ff= new displayClickedLocation();
+                Fragment ff= new locationDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("index",Integer.valueOf(marker.getSnippet())); //pass "index of clicked marker location" to the new fragment
                 ff.setArguments(bundle);

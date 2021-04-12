@@ -1,6 +1,5 @@
-package uk.ac.tees.a0321466;
+package uk.ac.tees.a0321466.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,26 +12,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import uk.ac.tees.a0321466.R;
 import uk.ac.tees.a0321466.javaClass.GlobalClass;
+import uk.ac.tees.a0321466.javaClass.SqliteHelperClass;
+import uk.ac.tees.a0321466.model.locationModel;
 import uk.ac.tees.a0321466.model.nearbyLocationApiHandler;
 import uk.ac.tees.a0321466.ui.home;
 
 
-public class displayClickedLocation extends Fragment {
+public class locationDetailFragment extends Fragment {
     //defined global reference of class
     private nearbyLocationApiHandler apiHandlerClass; //
    // private GlobalClass globalClass; //
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_display_clicked_location, container, false);
+        View view= inflater.inflate(R.layout.location_detail_fragment, container, false);
        //initialize classes  //
         apiHandlerClass =new nearbyLocationApiHandler();
+
+        /* Sqlite locationSqlite helper class */
+        SqliteHelperClass databasehandler = new SqliteHelperClass(getActivity());
 
         //Initialize global variables class
         /*
@@ -92,7 +99,27 @@ public class displayClickedLocation extends Fragment {
         });
 
 
+        //favorite button press event listener
+        /* this button helps to save location details in the sqlite database
 
+         */
+        view.findViewById(R.id.btn_fav).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             try{
+                 locationModel location_model=new locationModel(-1,name,addr,String.valueOf(rating),icon);
+                 //return true if data successfully inserted to the database
+                 if (databasehandler.insertContact(location_model)) {
+                     Toast.makeText(getActivity(), "Successfully added to favorite list", Toast.LENGTH_LONG).show();
+                 } else {
+                     Toast.makeText(getActivity(), "Error to add to favorite list", Toast.LENGTH_SHORT).show();
+                 }
+             } catch (Exception err) {
+                 Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show();
+             }
+
+            }
+        });
 
 
 

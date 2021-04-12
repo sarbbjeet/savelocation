@@ -52,7 +52,7 @@ dependencies {
     //picasso library
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
-    //Ion library
-    compile 'com.koushikdutta.ion:ion:2.1.9'
-
+    //recycle view
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
