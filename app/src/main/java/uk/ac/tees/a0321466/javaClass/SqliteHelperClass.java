@@ -1,3 +1,8 @@
+
+
+/* this class manage all SQlite insert, delete, view and edit operations
+
+ */
 package uk.ac.tees.a0321466.javaClass;
 
 import android.content.ContentValues;
@@ -25,10 +30,9 @@ public class SqliteHelperClass extends SQLiteOpenHelper {
     public static final String LOCATIONS_COLUMN_ICONURL = "iconURL";
 
 
-
     public SqliteHelperClass(@Nullable Context context) {
         //set database name, version .
-        super(context,"locationsDatabase", null, 1);
+        super(context,DATABASE_NAME, null, 1);
     }
 
     @Override
@@ -68,8 +72,8 @@ public class SqliteHelperClass extends SQLiteOpenHelper {
         }
     }
 
-    //get data or view data stored in the database table
 
+    //get or view data store in the database table
     public List<locationModel> viewAll(){
         //define list type
         List<locationModel> returnList= new ArrayList<>();
@@ -94,9 +98,9 @@ public class SqliteHelperClass extends SQLiteOpenHelper {
         return returnList;
     }
 
-    //delete database contact(student entry)
-    public boolean deleteOne(locationModel locationModle){
-        String query= "delete from " + LOCATIONS_TABLE_NAME + " where " + LOCATIONS_COLUMN_ID + " = " + locationModle.getId();
+    //delete entry from the database according to position or index num.
+    public boolean deleteOne(int position){
+        String query= "delete from " + LOCATIONS_TABLE_NAME + " where " + LOCATIONS_COLUMN_ID + " = " + position;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor= db.rawQuery(query,null);
         if(cursor.moveToFirst()){
@@ -106,7 +110,5 @@ public class SqliteHelperClass extends SQLiteOpenHelper {
             return true;
         }
     }
-
-
 }
 

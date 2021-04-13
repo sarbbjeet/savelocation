@@ -80,12 +80,12 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.4"
                 >
-                <Button
+                <ImageView
                     android:id="@+id/btn_delete"
                     android:layout_width="40dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/delete_icon_red"
-                    ></Button>
+                    android:background="@drawable/delete_icon1"
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_weight="0.6"
