@@ -13,11 +13,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.lang.reflect.GenericArrayType;
 
 import uk.ac.tees.a0321466.R;
 import uk.ac.tees.a0321466.javaClass.GlobalClass;

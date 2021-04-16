@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "374439201015",
+    "project_id": "authentication-app-701b9",
+    "storage_bucket": "authentication-app-701b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374439201015:android:319a71c68f08959305abf2",
+        "android_client_info": {
+          "package_name": "com.tees.ac.uk.a0321466.authentication_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374439201015-1pabne950pq0g1nidg3vngjf14dttdio.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZPFyTEqOhRbl93_FyqxiSqfz6ULkQFb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374439201015-1pabne950pq0g1nidg3vngjf14dttdio.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374439201015:android:e2c65f1e5e8d7b6e05abf2",
+        "android_client_info": {
+          "package_name": "uk.ac.tees.a0321466"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374439201015-1pabne950pq0g1nidg3vngjf14dttdio.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZPFyTEqOhRbl93_FyqxiSqfz6ULkQFb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374439201015-1pabne950pq0g1nidg3vngjf14dttdio.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

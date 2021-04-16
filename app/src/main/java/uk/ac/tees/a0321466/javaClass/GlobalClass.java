@@ -1,6 +1,7 @@
 package uk.ac.tees.a0321466.javaClass;
 
 import android.app.Application;
+import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -21,11 +22,11 @@ public class GlobalClass extends Application {
     //default latitude and longitude of "Tennyson street,Middlebrough"
     public static final LatLng default_LatLng = new LatLng(54.568760, -1.240210);
 
-
+    public Location gcurrentLocation; //set and get current location globaly / /
     public JSONObject nearbyApi;
     //Below array is used to create spinner list, which help to search different nearby locations
     public static final String[] search_type = {
-            "None",
+            "Choose a Service",
             "gym",
             "hospital",
             "hotal",
@@ -33,14 +34,36 @@ public class GlobalClass extends Application {
             "post_office",
             "school",
             "university",
+            "police",
+            "restaurant",
             "train_station",
             "airport"
     };
 
     public GlobalClass() {
     }
-     //create url link
-    public String nearByLocationUrl(double lat, double lng, String searchType) {
+
+
+    public Location getGcurrentLocation() {
+        return gcurrentLocation;
+    }
+
+    public void setGcurrentLocation(Location gcurrentLocation) {
+        this.gcurrentLocation = gcurrentLocation;
+    }
+
+    //create url link
+    public String nearByLocationUrl(String searchType) {
+        double lat,lng;
+
+        if(getGcurrentLocation() !=null){
+            lat=getGcurrentLocation().getLatitude();
+            lng=getGcurrentLocation().getLongitude();
+        }
+        else{
+            lat=default_LatLng.latitude;
+            lng=default_LatLng.longitude;
+        }
         String _lat = String.valueOf(lat); ///convert double to string
         String _lng = String.valueOf(lng); ///convert double to string
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + _lat + "," + _lng

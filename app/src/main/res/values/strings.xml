@@ -11,13 +11,19 @@
     <string name="menu_journeys">Favorite List</string>
     <string name="menu_profile">My Profile</string>
 
+    <string name="location_list">Choose a Service</string>
+
     <!-- Category -->
-    <string-array name="category">
-        <item>Top News</item>
-        <item>Business</item>
-        <item>Politics</item>
-        <item>Sports</item>
-        <item>Technology</item>
-        <item>Movies</item>
+    <string-array name="locationCategoriesArray">
+        <item>Choose a Service</item>
+        <item>gym</item>
+        <item>hospital</item>
+        <item>bank</item>
+        <item>post_office</item>
+        <item>school</item>
+        <item>hotal</item>
+        <item>train_station</item>
+        <item>police</item>
     </string-array>
+
 </resources>

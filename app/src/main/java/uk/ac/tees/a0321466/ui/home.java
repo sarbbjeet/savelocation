@@ -41,7 +41,7 @@ public class home extends Fragment {
     //create reference to classes
     private currentLocation getLocation;
     private mapPermission mPermission;
-    private GlobalClass gVariables;
+    private GlobalClass gVariables; //user can access data from any activity
     private getNearByLocationApi getNearByLocation_api;
     private nearbyLocationApiHandler apiHandler;
 
@@ -52,7 +52,7 @@ public class home extends Fragment {
         //Initialize global variables class
         /*
       below written lines for set and get variables/data from GlobalClass when we are
-      working with fragments.If you want to set/get in Activities then use
+      working with fragments.If you want to set/get in normal Activity then use
         this way "gVariables=(GlobalClass)getApplicationContext();"
          */
         gVariables = (GlobalClass)getActivity().getApplication();
@@ -66,7 +66,7 @@ public class home extends Fragment {
         View view=inflater.inflate(R.layout.fragment_home2,container,false);
 
      //spinner to select nearby location type/////////////////////////////////////////////////////
-       Spinner spnr = view.findViewById(R.id.spinner1);
+       Spinner spnr = view.findViewById(R.id.nearby_location_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, search_type);
         spnr.setAdapter(adapter);
@@ -78,8 +78,10 @@ public class home extends Fragment {
                                                int arg2, long arg3) {
 
                         int position = spnr.getSelectedItemPosition();
-                        if(search_type[position] !="None") {        //need some modification here
-                            String httpUrl=gVariables.nearByLocationUrl(54.568760,-1.240210,search_type[position]);
+                        //perform search when user select a service from given list
+                        if(!search_type[position].equalsIgnoreCase("Choose a Service")) {
+
+                            String httpUrl=gVariables.nearByLocationUrl(search_type[position]);
 
        /////////////////http call to volley library to get api response////////////////////////////////////////
                             getNearByLocation_api.httpRequest(httpUrl, new volleyResponseListener() {
@@ -90,6 +92,8 @@ public class home extends Fragment {
 
                                 @Override
                                 public void onResponse(JSONObject jsonObject) {
+                                    /* pass recieved data to Global variable
+                                    class so we can access this data from any activity */
                                     gVariables.setNearbyApi(jsonObject);
                                     apiHandler.setNearbyApi(jsonObject);
                                     //send lat/lng and  name of locations to create map marker

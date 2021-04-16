@@ -51,6 +51,8 @@ public class currentLocation extends Fragment {
     FragmentManager fm;
     LatLng current_latLng =new LatLng(0.0,0.0); //latitude & longitude of current location
 
+    GlobalClass globalClass;
+
 
     //constructor of currentLocation class and below parameters are passing by called class
     public currentLocation(uk.ac.tees.a0321466.ui.home home, Context _mActivity, FusedLocationProviderClient _mFusedLocationProviderClient, GoogleMap _map) {
@@ -59,6 +61,7 @@ public class currentLocation extends Fragment {
         mMap = _map;
         fm= home.getFragmentManager();  //connect getFragmentManager with home.this instance
 
+        globalClass = (GlobalClass)home.getActivity().getApplication();  //access Global Class method and varibles
 
         ////////////////////google map marker infoWindow click listener ////////////////////////
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -66,7 +69,7 @@ public class currentLocation extends Fragment {
             public void onInfoWindowClick(Marker marker) {
                 //code used to call new fragment "displayClickLocation"
                 //this new fragment show details of map marker location point where user click
-                Fragment ff= new locationDetailFragment();
+                Fragment ff= new locationDetailFragment();  //location details fragment
                 Bundle bundle = new Bundle();
                 bundle.putInt("index",Integer.valueOf(marker.getSnippet())); //pass "index of clicked marker location" to the new fragment
                 ff.setArguments(bundle);
@@ -107,7 +110,6 @@ function to create markers on the google map
 
     //map focus towards current location and get current location latitude and longitude
     public void pointBackCurrentLocation() {
-
         try {
             Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
             locationResult.addOnCompleteListener((Activity) mActivity, new OnCompleteListener<Location>() {
@@ -118,16 +120,19 @@ function to create markers on the google map
                         // Set the map's camera position to the current location of the device.
                         getCurrentLocation = task.getResult();
                         if (getCurrentLocation != null ) {
-                            if(current_latLng.latitude != getCurrentLocation.getLatitude() && current_latLng.longitude != getCurrentLocation.getLongitude()){
+                            globalClass.setGcurrentLocation(getCurrentLocation);  //pass current location to globalclass
 
+                            if(current_latLng.latitude != getCurrentLocation.getLatitude() && current_latLng.longitude != getCurrentLocation.getLongitude()){
+                                mMap.clear(); //clear previous markers
                                 current_latLng = new LatLng(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude());
                                 mMap.addMarker(new MarkerOptions().position(current_latLng).title("My Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.mycar)));
+
                             }
 
                         } else {
                             //Toast.makeText(getActivity(),"gps not here", Toast.LENGTH_SHORT).show();
                             mMap.clear(); //clear previous markers
-                            current_latLng = default_LatLng;
+                            current_latLng = default_LatLng;  //set current location default
                             mMap.addMarker(new MarkerOptions().position(current_latLng).title("My Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.mycar)));
                         }
 
@@ -144,7 +149,9 @@ function to create markers on the google map
     }
 
 
+/* method to convert image/ according to google marker acceptable .
 
+ */
     private BitmapDescriptor BitmapFromVector(Context context, int vectorResId) {
         // below line is use to generate a drawable.
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
