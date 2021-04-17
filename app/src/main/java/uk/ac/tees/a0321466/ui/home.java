@@ -1,10 +1,9 @@
 package uk.ac.tees.a0321466.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,10 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Marker;
 
 import org.json.JSONObject;
 
@@ -29,43 +28,47 @@ import uk.ac.tees.a0321466.javaClass.GlobalClass;
 import uk.ac.tees.a0321466.javaClass.mapPermission;
 import uk.ac.tees.a0321466.javaClass.onCustomCallback;
 import uk.ac.tees.a0321466.javaClass.volleyResponseListener;
-import uk.ac.tees.a0321466.model.nearbyLocationApiHandler;
+import uk.ac.tees.a0321466.locationDetailActivity;
+import uk.ac.tees.a0321466.model.nearbyLocationModel;
 
 import static uk.ac.tees.a0321466.javaClass.GlobalClass.search_type;
 
 public class home extends Fragment {
-
+    //create reference to classes
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-  //  private Location getCurrentLocation;
-    //create reference to classes
     private currentLocation getLocation;
     private mapPermission mPermission;
     private GlobalClass gVariables; //user can access data from any activity
     private getNearByLocationApi getNearByLocation_api;
-    private nearbyLocationApiHandler apiHandler;
+    private nearbyLocationModel apiHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+//        Intent intent = new Intent(home.this.getContext(), locationDetailActivity.class);
+//////        //intent.putExtra("index",Integer.valueOf(marker.getSnippet()));
+//        startActivity(intent);
+        getLocation=new currentLocation(getActivity());  //initialize currentLocation class to get location and set marker
         //Initialize global variables class
         /*
       below written lines for set and get variables/data from GlobalClass when we are
       working with fragments.If you want to set/get in normal Activity then use
         this way "gVariables=(GlobalClass)getApplicationContext();"
          */
-        gVariables = (GlobalClass)getActivity().getApplication();
+         gVariables = (GlobalClass)getActivity().getApplication();
 
         //initialize volley library class to get api
         getNearByLocation_api = new getNearByLocationApi(getActivity());
        //api handler model class initialize
-        apiHandler = new nearbyLocationApiHandler();
+        apiHandler = new nearbyLocationModel();
 
         //Initialize view
         View view=inflater.inflate(R.layout.fragment_home2,container,false);
 
-     //spinner to select nearby location type/////////////////////////////////////////////////////
+
+        //spinner to select nearby location type/////////////////////////////////////////////////////
        Spinner spnr = view.findViewById(R.id.nearby_location_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, search_type);
@@ -117,27 +120,29 @@ public class home extends Fragment {
         SupportMapFragment supportMapFragment=(SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.google_map);
 
-
-
-        ///initailize location provider client
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-
-
  //////////////////////MAP Async   ///////////////////////////////////////////////////////////////////////////////////
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap=googleMap;
-                getLocation=new currentLocation(home.this,getActivity(),mFusedLocationProviderClient,mMap);
+                getLocation.mapReference(mMap); //pass google map reference
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        Intent intent = new Intent(getActivity(), locationDetailActivity.class);
+                        intent.putExtra("index",Integer.valueOf(marker.getSnippet()));
+                        startActivity(intent);
+                    }
+                });
+                ////////map permission class // ////
                 new mapPermission(getActivity(), new onCustomCallback() {  //hit callback once gps permission enable
                     @Override
                     public void gpsEnableDone() {
                         //display current location on the map once map permission enable
                         getLocation.pointBackCurrentLocation();  //current location getter
-
                     }
                 });
-       //////////////current location event button ///////////////////////////////////////////////
+       //////////////get current location event button ///////////////////////////////////////////////
                 view.findViewById(R.id.getLocation).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -150,7 +155,6 @@ public class home extends Fragment {
 
                     }
                 });
-    ///////////////////////////////////////////////////////////////////////////////////////
 
             }
         });
@@ -158,5 +162,6 @@ public class home extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
 
 }

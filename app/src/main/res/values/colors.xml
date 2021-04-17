@@ -10,6 +10,9 @@
     <color name="spinner_background">#E4E7E5EC</color>
     <color name="address_banner">#B4510AF8</color>
 
+    <color name="location_banner">#A8696969</color>
+
+
     <color name="grey_300">#E0E0E0</color>
     <color name="color_white">#fefefe</color>
 

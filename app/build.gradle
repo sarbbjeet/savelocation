@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+
 }
 
 android {
@@ -55,4 +56,58 @@ dependencies {
     //recycle view
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+
+
+
+    // Firebase Bom
+    implementation platform('com.google.firebase:firebase-bom:26.1.1')
+
+    // material
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+
+    //swiperefreshlayout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    //Navigation
+    implementation 'androidx.navigation:navigation-fragment:2.3.1'
+    implementation 'androidx.navigation:navigation-ui:2.3.1'
+
+    // ViewModel && LiveData
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+
+    //Google Map
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
+    // cardView
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    // DatePicker
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+
+    // Dialog
+    implementation 'com.github.d-max:spots-dialog:0.7@aar'
+
+
+
+    // SDP lib
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
+    // country picker
+    implementation 'com.hbb20:ccp:2.4.0'
+
+    // Firebase Auth
+    implementation 'com.firebaseui:firebase-ui-auth:7.1.1'
+    implementation 'com.google.firebase:firebase-database'
+
+    // calendar view
+
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
+
+
+
+
+
 }

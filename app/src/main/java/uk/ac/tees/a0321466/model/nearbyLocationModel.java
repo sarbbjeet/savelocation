@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class nearbyLocationApiHandler {
+public class nearbyLocationModel {
     private JSONObject nearbyApi =new JSONObject();
     private double lat,lng;
     private String name,iconImg, addr,businessStatus;
@@ -16,7 +16,7 @@ public class nearbyLocationApiHandler {
     double rating;
     private ArrayList<LatLng> latLng = new ArrayList<LatLng>();
     private ArrayList<String> names= new ArrayList<String>();
-    public nearbyLocationApiHandler() {
+    public nearbyLocationModel() {
     }
 
 

@@ -8,22 +8,29 @@ marker location complete details.
 
 package uk.ac.tees.a0321466.javaClass;
 import android.app.Activity;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,52 +43,40 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
+import java.util.Map;
 
+import uk.ac.tees.a0321466.MainActivity;
 import uk.ac.tees.a0321466.R;
+import uk.ac.tees.a0321466.locationDetailActivity;
+import uk.ac.tees.a0321466.ui.home;
 import uk.ac.tees.a0321466.ui.locationDetailFragment;
 
 import static uk.ac.tees.a0321466.javaClass.GlobalClass.DEFAULT_ZOOM;
 import static uk.ac.tees.a0321466.javaClass.GlobalClass.default_LatLng;
-public class currentLocation extends Fragment {
+public class currentLocation {
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Location getCurrentLocation;
     GoogleMap mMap;
-    Context mActivity;
+
     FragmentManager fm;
     LatLng current_latLng =new LatLng(0.0,0.0); //latitude & longitude of current location
-
+    FragmentActivity activity;
     GlobalClass globalClass;
+    Context cc;
 
 
     //constructor of currentLocation class and below parameters are passing by called class
-    public currentLocation(uk.ac.tees.a0321466.ui.home home, Context _mActivity, FusedLocationProviderClient _mFusedLocationProviderClient, GoogleMap _map) {
-        mActivity = _mActivity;
-        mFusedLocationProviderClient = _mFusedLocationProviderClient;
-        mMap = _map;
-        fm= home.getFragmentManager();  //connect getFragmentManager with home.this instance
+    public currentLocation(FragmentActivity activity) {
+        this.activity = activity;
 
-        globalClass = (GlobalClass)home.getActivity().getApplication();  //access Global Class method and varibles
+        ///initailize location provider client
+        this.mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.activity.getApplicationContext());
+        globalClass = (GlobalClass)this.activity.getApplication();  //access Global Class method and varibles
+    }
 
-        ////////////////////google map marker infoWindow click listener ////////////////////////
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                //code used to call new fragment "displayClickLocation"
-                //this new fragment show details of map marker location point where user click
-                Fragment ff= new locationDetailFragment();  //location details fragment
-                Bundle bundle = new Bundle();
-                bundle.putInt("index",Integer.valueOf(marker.getSnippet())); //pass "index of clicked marker location" to the new fragment
-                ff.setArguments(bundle);
-
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_host_fragment, ff);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-                //Toast.makeText(mActivity,marker.getSnippet(), Toast.LENGTH_LONG).show();
-            }
-
-        });
+    public void mapReference(GoogleMap map) {
+          mMap=map;
     }
 
 
@@ -98,7 +93,7 @@ function to create markers on the google map
 
         for (int i = 0; i < latLngs.size(); i++) {
             mMap.addMarker(new MarkerOptions().position(latLngs.get(i)).title(
-                    names.get(i)).snippet(String.valueOf(i)).icon(BitmapFromVector(mActivity, R.drawable.map_marker_icon)));
+                    names.get(i)).snippet(String.valueOf(i)).icon(BitmapFromVector(this.activity.getApplicationContext(), R.drawable.map_marker_icon)));
 
 
 //            Picasso.with(mActivity).load(url).resize(84, 125).into(target);
@@ -112,7 +107,7 @@ function to create markers on the google map
     public void pointBackCurrentLocation() {
         try {
             Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
-            locationResult.addOnCompleteListener((Activity) mActivity, new OnCompleteListener<Location>() {
+            locationResult.addOnCompleteListener(this.activity, new OnCompleteListener<Location>() {
 
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
@@ -120,7 +115,7 @@ function to create markers on the google map
                         // Set the map's camera position to the current location of the device.
                         getCurrentLocation = task.getResult();
                         if (getCurrentLocation != null ) {
-                            globalClass.setGcurrentLocation(getCurrentLocation);  //pass current location to globalclass
+                           globalClass.setGcurrentLocation(getCurrentLocation);  //pass current location to globalclass
 
                             if(current_latLng.latitude != getCurrentLocation.getLatitude() && current_latLng.longitude != getCurrentLocation.getLongitude()){
                                 mMap.clear(); //clear previous markers

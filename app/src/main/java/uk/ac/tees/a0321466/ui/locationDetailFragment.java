@@ -13,26 +13,23 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.GenericArrayType;
-
 import uk.ac.tees.a0321466.R;
 import uk.ac.tees.a0321466.javaClass.GlobalClass;
 import uk.ac.tees.a0321466.javaClass.SqliteHelperClass;
 import uk.ac.tees.a0321466.model.locationModel;
-import uk.ac.tees.a0321466.model.nearbyLocationApiHandler;
+import uk.ac.tees.a0321466.model.nearbyLocationModel;
 
 
 
 public class locationDetailFragment extends Fragment {
     SqliteHelperClass databasehandler;
-    nearbyLocationApiHandler apiHandlerClass;
+    nearbyLocationModel apiHandlerClass;
     int index;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +38,7 @@ public class locationDetailFragment extends Fragment {
         View view= inflater.inflate(R.layout.location_detail_fragment, container, false);
 
         //initialize classes //
-        apiHandlerClass =new nearbyLocationApiHandler();
+        apiHandlerClass =new nearbyLocationModel();
 
         /* Sqlite locationSqlite helper class */
         databasehandler = new SqliteHelperClass(getActivity());
