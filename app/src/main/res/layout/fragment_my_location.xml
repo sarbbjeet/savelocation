@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MyLocation">
+
+    <LinearLayout
+
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+          android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:layout_height="wrap_content"
+                android:text="Address:"
+                android:textColor="@color/gray5"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/myAddr"
+                android:layout_width="0dp"
+                android:layout_weight="0.75"
+
+                android:layout_height="wrap_content"
+                android:text="7 Tennyson Street"
+                android:textSize="16sp"
+                android:textColor="#473C3C"
+                android:layout_marginStart="25dp"
+                android:background="#39AA9878"
+                android:padding="5dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/DarkGray"
+            ></LinearLayout>
+
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:text="Post Code:"
+                android:textColor="@color/gray5"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/myPostcode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"
+                android:text="TS1 4LZ"
+                android:textSize="16sp"
+                android:textColor="#473C3C"
+                android:layout_marginStart="25dp"
+                android:background="#39AA9878"
+                android:padding="5dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/DarkGray"
+            ></LinearLayout>
+
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:text="Country:"
+                android:textColor="@color/gray5"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/myCountry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"
+                android:text="UK"
+                android:textSize="16sp"
+                android:textColor="#473C3C"
+                android:layout_marginStart="25dp"
+                android:background="#39AA9878"
+                android:padding="5dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/DarkGray"
+            ></LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:text="Latitude:"
+                android:textColor="@color/gray5"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/myLat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"
+                android:text="243.567"
+                android:textSize="16sp"
+                android:textColor="#473C3C"
+                android:layout_marginStart="25dp"
+                android:background="#39AA9878"
+                android:padding="5dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/DarkGray"
+            ></LinearLayout>
+
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:text="Longitude:"
+                android:textColor="@color/gray5"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/myLng"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"
+                android:text="-1.2453"
+                android:textSize="16sp"
+                android:textColor="#473C3C"
+                android:layout_marginStart="25dp"
+                android:background="#39AA9878"
+                android:padding="5dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/DarkGray"
+            ></LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

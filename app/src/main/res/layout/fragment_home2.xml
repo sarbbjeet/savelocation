@@ -53,6 +53,7 @@
             android:layout_centerInParent="true"
             android:layout_marginEnd="@dimen/spinner_image_margin"
             android:src="@android:drawable/arrow_down_float" />
+
     </RelativeLayout>
 
 

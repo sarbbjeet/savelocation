@@ -68,6 +68,18 @@ public class locationDetailActivity extends AppCompatActivity {
             tv_openH.setText(String.valueOf( nearbyLocationModel.isOpenNow(index)));
         }
 
+
+
+        //back button click listener
+        findViewById(R.id.toolbar_backBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //move back to home fragment
+                  onBackPressed();
+
+            }
+        });
+
         //favorite button press event listener
         /* this button helps to save location details in the sqlite database
 

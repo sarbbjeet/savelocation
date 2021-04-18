@@ -4,12 +4,16 @@ package uk.ac.tees.a0321466.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -22,6 +26,7 @@ import com.google.android.gms.maps.model.Marker;
 import org.json.JSONObject;
 
 import uk.ac.tees.a0321466.R;
+import uk.ac.tees.a0321466.javaClass.SectionStatePageAdapter;
 import uk.ac.tees.a0321466.javaClass.currentLocation;
 import uk.ac.tees.a0321466.javaClass.getNearByLocationApi;
 import uk.ac.tees.a0321466.javaClass.GlobalClass;
@@ -46,6 +51,7 @@ public class home extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
 //        Intent intent = new Intent(home.this.getContext(), locationDetailActivity.class);
 //////        //intent.putExtra("index",Integer.valueOf(marker.getSnippet()));
@@ -129,11 +135,24 @@ public class home extends Fragment {
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        Intent intent = new Intent(getActivity(), locationDetailActivity.class);
-                        intent.putExtra("index",Integer.valueOf(marker.getSnippet()));
-                        startActivity(intent);
+                        if(marker.getTitle().equalsIgnoreCase("My Location")){
+                            //Toast.makeText(getActivity(),"my location",Toast.LENGTH_SHORT).show();
+                            FragmentManager fm = getFragmentManager();
+                            FragmentTransaction ft = fm.beginTransaction();
+                            ft.replace(R.id.nav_host_fragment,new MyLocation()).commit();
+                        }
+                        else{
+                            Intent intent = new Intent(getActivity(), locationDetailActivity.class);
+                            intent.putExtra("index",Integer.valueOf(marker.getSnippet()));
+                            startActivity(intent);
+
+                        }
+
                     }
                 });
+
+
+
                 ////////map permission class // ////
                 new mapPermission(getActivity(), new onCustomCallback() {  //hit callback once gps permission enable
                     @Override

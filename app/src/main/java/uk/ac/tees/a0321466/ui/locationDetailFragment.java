@@ -78,17 +78,16 @@ public class locationDetailFragment extends Fragment {
         tv_openH.setText(String.valueOf(apiHandlerClass.isOpenNow(index)));
         }
 
+
+
         //back button click listener
-        view.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.toolbar_backBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 //move back to home fragment
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_host_fragment, new home());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+               getActivity().onBackPressed();
+               Toast.makeText(getActivity(),"button press",Toast.LENGTH_SHORT).show();
 
             }
         });
