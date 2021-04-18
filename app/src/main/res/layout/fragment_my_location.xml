@@ -23,7 +23,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="0.25"
                 android:layout_height="wrap_content"
-                android:text="Address:"
+                android:text="Street:"
                 android:textColor="@color/gray5"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -35,6 +35,45 @@
 
                 android:layout_height="wrap_content"
                 android:text="7 Tennyson Street"
+                android:textSize="16sp"
+                android:textColor="#473C3C"
+                android:layout_marginStart="25dp"
+                android:background="#39AA9878"
+                android:padding="5dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/DarkGray"
+            ></LinearLayout>
+
+        <LinearLayout
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:layout_height="wrap_content"
+                android:text="City:"
+                android:textColor="@color/gray5"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/myCity"
+                android:layout_width="0dp"
+                android:layout_weight="0.75"
+
+                android:layout_height="wrap_content"
+                android:text="Middlesbrough"
                 android:textSize="16sp"
                 android:textColor="#473C3C"
                 android:layout_marginStart="25dp"
