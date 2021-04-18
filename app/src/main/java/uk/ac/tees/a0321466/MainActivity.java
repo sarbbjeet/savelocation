@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import uk.ac.tees.a0321466.javaClass.SectionStatePageAdapter;
+import uk.ac.tees.a0321466.ui.FavoriteList;
 import uk.ac.tees.a0321466.ui.MyLocation;
 import uk.ac.tees.a0321466.ui.SearchLocation;
 import uk.ac.tees.a0321466.ui.home;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         sectionStatePageAdapter.addFragment(new MyLocation(), "mylocation_fragment");
         sectionStatePageAdapter.addFragment(new profile(), "profile_fragment");
         sectionStatePageAdapter.addFragment(new SearchLocation(), "searchLocation_fragment");
+        sectionStatePageAdapter.addFragment(new FavoriteList(), "favoriteList_fragment");
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -50,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_journeys, R.id.nav_profile, R.id.nav_myLocation)
+                R.id.nav_home, R.id.nav_journeys, R.id.nav_profile,
+                R.id.nav_myLocation, R.id.nav_searchLocation)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

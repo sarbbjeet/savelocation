@@ -46,6 +46,7 @@ public class MyLocation extends Fragment {
          //set toolbar title /
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("My Location");
 
+
         View view= inflater.inflate(R.layout.fragment_my_location, container, false);
         /* view component id  get
 

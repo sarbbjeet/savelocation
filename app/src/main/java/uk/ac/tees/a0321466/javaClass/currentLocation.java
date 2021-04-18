@@ -7,27 +7,18 @@ marker location complete details.
  */
 
 package uk.ac.tees.a0321466.javaClass;
-import android.app.Activity;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -37,19 +28,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-import uk.ac.tees.a0321466.MainActivity;
 import uk.ac.tees.a0321466.R;
-import uk.ac.tees.a0321466.locationDetailActivity;
-import uk.ac.tees.a0321466.ui.home;
-import uk.ac.tees.a0321466.ui.locationDetailFragment;
 
 import static uk.ac.tees.a0321466.javaClass.GlobalClass.DEFAULT_ZOOM;
 import static uk.ac.tees.a0321466.javaClass.GlobalClass.default_LatLng;
