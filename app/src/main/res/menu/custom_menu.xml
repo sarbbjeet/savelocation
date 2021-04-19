@@ -22,9 +22,9 @@
 
 
     <item android:id="@+id/items_mic"
-        android:icon="@drawable/drop_down"
+        android:icon="@drawable/mic_icon"
         android:title="Google Mic"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
       >
 
     </item>

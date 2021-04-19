@@ -1,7 +1,10 @@
 package uk.ac.tees.a0321466.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +32,7 @@ public class FavoriteList extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =inflater.inflate(R.layout.favorite_list_fragment, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Favourite List");
 
         /* Sqlite locationSqlite helper class */
         databasehandler = new SqliteHelperClass(getActivity());
@@ -42,22 +46,55 @@ public class FavoriteList extends Fragment {
             @Override
             public void onItemClick(locationModel clickedLocation) {
                 //delete clicked item form the data base using id
-                int position = clickedLocation.getId();
-                if(databasehandler.deleteOne(position)){
-                    Toast.makeText(getActivity(),clickedLocation.getName()+
-                            " location is delete from favorite list", Toast.LENGTH_SHORT).show();
-                    locationViewAdapter.RecyclerViewAdapter(databasehandler.viewAll());
-                    recyclerView.setAdapter(locationViewAdapter);
-                }
-                else{
-                    Toast.makeText(getActivity(),"Error to delete " + clickedLocation.getName()
-                            + " from favorite list", Toast.LENGTH_SHORT).show();
-                }
+              confirmDelete(clickedLocation);
             }
         });
 
         return  view;
     }
+
+
+
+    private void confirmDelete(locationModel clickedLocation) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Are you sure you want to delete item?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        deleteItem(clickedLocation);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
+    /* method to delete item from the favorite list*/
+
+    public void deleteItem(locationModel clickedLocation){
+        int position = clickedLocation.getId();
+        if(databasehandler.deleteOne(position)){
+            Toast.makeText(getActivity(),clickedLocation.getName()+
+                    " location is delete from favorite list", Toast.LENGTH_SHORT).show();
+            locationViewAdapter.RecyclerViewAdapter(databasehandler.viewAll());
+            recyclerView.setAdapter(locationViewAdapter);
+        }
+        else{
+            Toast.makeText(getActivity(),"Error to delete " + clickedLocation.getName()
+                    + " from favorite list", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+
+
+
 
     /* get all location details store in the database
 

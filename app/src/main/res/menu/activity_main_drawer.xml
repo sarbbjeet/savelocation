@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/group1"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/home_icon"
@@ -25,5 +26,15 @@
             android:icon="@drawable/current_location_btn"
             android:title="My Location" />
 
+    </group>
+
+
+    <group
+        android:id="@+id/menu_group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout_icon"
+            android:title="Logout" />
     </group>
 </menu>

@@ -2,12 +2,14 @@ package uk.ac.tees.a0321466.ui;
 
 
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
@@ -44,6 +46,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONObject;
 
@@ -54,6 +57,7 @@ import java.util.List;
 import javax.net.ssl.SSLEngineResult;
 
 import uk.ac.tees.a0321466.R;
+import uk.ac.tees.a0321466.SignUpActivity;
 import uk.ac.tees.a0321466.javaClass.SectionStatePageAdapter;
 import uk.ac.tees.a0321466.javaClass.currentLocation;
 import uk.ac.tees.a0321466.javaClass.getNearByLocationApi;
@@ -85,6 +89,8 @@ public class Home_mainLogic extends Fragment {
     Place searchPlace;
     List<Address> voiceLocationArray;
 
+    FirebaseAuth fAuth;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,11 +99,11 @@ public class Home_mainLogic extends Fragment {
         //Initialize view
         View view = inflater.inflate(R.layout.fragment_home2, container, false);
         setHasOptionsMenu(true); //toolbar menu visable
-
+        fAuth = FirebaseAuth.getInstance();
 
         spinnerLayout=view.findViewById(R.id.nearby_spinner_layout);
         searchLayout=view.findViewById(R.id.search_layout);
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Home");  //navbar title
 
         getLocation = new currentLocation(getActivity());  //initialize currentLocation class to get location and set marker
         //Initialize global variables class
@@ -341,7 +347,16 @@ public class Home_mainLogic extends Fragment {
                 Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivity(camera);
             }
-            else if(!voice.equalsIgnoreCase("")){
+            else if(voice.equalsIgnoreCase("user logout")) {
+              confirmLogout();
+
+            }
+            else if(voice.equalsIgnoreCase("open favourite list")) {
+                FragmentManager fm =getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.nav_host_fragment, new FavoriteList()).addToBackStack("home").commit();
+
+            }else if(!voice.equalsIgnoreCase("")){
                voiceLocationArray=new textToLocationConverter_Geo(getActivity()).geoLocate(voice);
                 if(voiceLocationArray.size()>0){
                     Log.d(
@@ -362,6 +377,31 @@ public class Home_mainLogic extends Fragment {
         }
 
     }
+
+
+/* ask for confirmation to logout */
+    private void confirmLogout() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Are you sure you want to logout?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        fAuth.signOut();
+                        //and open register screen
+                        startActivity(new Intent(getActivity(), SignUpActivity.class));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
+
 
     /* method to print toast msg
 

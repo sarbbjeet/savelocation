@@ -60,7 +60,6 @@ public class SignUpActivity extends AppCompatActivity {
 
 
 
-
         /* register button press listener
 
          */
@@ -72,9 +71,6 @@ public class SignUpActivity extends AppCompatActivity {
                 firstName= et_name.getText().toString().trim();
                 email = et_email.getText().toString().trim();
                 password = et_pass.getText().toString().trim();
-
-
-
 
                /* input edit text validation */
                 if (firstName.isEmpty()) {
@@ -117,6 +113,22 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.btn_openLogin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginPageLayout.setVisibility(loginPageLayout.VISIBLE);
+                registerPageLayout.setVisibility(registerPageLayout.GONE);
+            }
+        });
+
+        findViewById(R.id.btn_openRegister).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginPageLayout.setVisibility(loginPageLayout.GONE); //invisible
+                registerPageLayout.setVisibility(registerPageLayout.VISIBLE); //visible
+            }
+        });
+
 
         /* user account login  event listener button */
       findViewById(R.id.btn_signIn).setOnClickListener(new View.OnClickListener() {
@@ -129,12 +141,12 @@ public class SignUpActivity extends AppCompatActivity {
               /* input edit text validation */
               if (email_login.isEmpty() || !email_login.contains("@")) {
                   et_email_login.setError("Enter Valid Email");
-                  progressBar_register.setVisibility(progressBar_register.GONE);
+                  progressBar_login.setVisibility(progressBar_register.GONE);
                   return;
               }
               if (password_login.isEmpty() || password_login.length() < 6) {
                   et_pass_login.setError("Enter Valid Password");
-                  progressBar_register.setVisibility(progressBar_register.GONE);
+                  progressBar_login.setVisibility(progressBar_register.GONE);
                   return;
               }
               //start login process using firebase function ..
@@ -160,41 +172,23 @@ public class SignUpActivity extends AppCompatActivity {
                   }
               });
 
-    /* link to open register page */
-              findViewById(R.id.tv_openRegister).setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      loginPageLayout.setVisibility(loginPageLayout.GONE); //invisible
-                      registerPageLayout.setVisibility(registerPageLayout.VISIBLE); //visible
-                  }
-              });
-
-
-       /* Link to open Login page */
-              findViewById(R.id.tv_openLogin).setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      loginPageLayout.setVisibility(loginPageLayout.VISIBLE); //visible
-                      registerPageLayout.setVisibility(registerPageLayout.GONE); //invisible
-
-                  }
-              });
-
-
-              /* check user is login or not  basically check when app start*/
-              if(fAuth.getCurrentUser() !=null){
-                  //it means user already login so redirect directly to main activity
-                  startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                  finish();
-              }
-              else{
-                  //open register page //
-                  loginPageLayout.setVisibility(loginPageLayout.GONE); //invisible
-                  registerPageLayout.setVisibility(registerPageLayout.VISIBLE); //visible
-              }
-
           }
       });
+
+
+
+        /* check user is login or not  basically check when app start*/
+        if(fAuth.getCurrentUser() !=null){
+            //it means user already login so redirect directly to main activity
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
+        }
+        else{
+            //open register page //
+            loginPageLayout.setVisibility(loginPageLayout.GONE); //invisible
+            registerPageLayout.setVisibility(registerPageLayout.VISIBLE); //visible
+        }
+
 
     }
 
