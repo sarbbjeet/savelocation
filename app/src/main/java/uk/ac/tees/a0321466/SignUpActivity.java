@@ -12,15 +12,22 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
     FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
     /* register layout variables */
     EditText et_name, et_email, et_pass;
     ProgressBar progressBar_register;
@@ -41,6 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         /* initilize firebase authentication*/
         fAuth =FirebaseAuth.getInstance();
+        fStore =FirebaseFirestore.getInstance();
 
         /* register layout viwe components get ids */
         et_name = findViewById(R.id.et_firstname1);
@@ -98,6 +106,8 @@ public class SignUpActivity extends AppCompatActivity {
                             et_email.setText("");
                             et_pass.setText("");
                             splashMsg("Successfully User Account Created..");
+
+                            storeUserData(firstName,email);
                             /* redirect to home page when user account is created successfully
 
                              */
@@ -188,9 +198,47 @@ public class SignUpActivity extends AppCompatActivity {
             loginPageLayout.setVisibility(loginPageLayout.GONE); //invisible
             registerPageLayout.setVisibility(registerPageLayout.VISIBLE); //visible
         }
+    }
 
+
+
+    /* store data to firebase store */
+
+    /* store data to firebase firestore */
+    private void storeUserData(String fName, String fEmail){
+       String userId = fAuth.getCurrentUser().getUid();
+        DocumentReference db = fStore.collection("users")
+                .document(userId);
+        Map<String, Object> user = new HashMap<>();
+        user.put("firstName", fName);
+        user.put("lastName", "");
+        user.put("email", fEmail);
+        user.put("DOB", "");
+        user.put("mobile", "");
+
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getApplicationContext(), "Successfully data store on the firebase", Toast.LENGTH_SHORT).show();
+                        boolean isSuccess = true;
+                        // Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    boolean isSuccess =false;
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+                        // Log.w(TAG, "Error adding document", e);
+                    }
+                });
 
     }
+
+
+
 
             public void splashMsg(String msg) {
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();

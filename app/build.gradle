@@ -112,11 +112,8 @@ dependencies {
     // calendar view
 
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
+    implementation 'com.github.dhaval2404:imagepicker:1.8'
 
-    implementation 'com.android.support:design:26.1.0'
-
-    implementation 'com.android.support:cardview-v7:26.0.1'
-    implementation 'com.android.support:appcompat-v7:26.0.1'
 
 
 }

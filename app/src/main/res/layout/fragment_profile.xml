@@ -1,16 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layout_gravity="center_vertical|center_horizontal"
     tools:context=".ui.profile">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Profile fragments"
-        android:gravity="center"
+    <Button
+        android:layout_margin="30dp"
+        android:padding="2dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/btn_save12"
+        android:layout_marginHorizontal="10dp"
+        android:layout_width="wrap_content"
+        android:backgroundTint="@color/location_banner"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:drawableLeft="@drawable/ic_baseline_save_24"
         />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_roundImage"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/user_account_icon"
+        app:civ_border_width="2dp"
+        android:layout_above="@+id/profile_field"
+        app:civ_border_color="#FF000000"/>
+
+    <LinearLayout
+
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="150dp"
+        android:id="@+id/profile_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:padding="@dimen/_15sdp">
+
+        <EditText
+            android:id="@+id/edit_firstname"
+            android:inputType="textFilter|textNoSuggestions"
+            style="@style/EditText_STYLE"
+            android:drawableTint="@color/gray5"
+            android:drawableStart="@drawable/user_name"
+            android:hint="First Name" />
+        <EditText
+            android:id="@+id/edit_lastname"
+            android:inputType="textFilter|textNoSuggestions"
+            style="@style/EditText_STYLE"
+            android:drawableTint="@color/gray5"
+            android:drawableStart="@drawable/user_name"
+            android:hint="Last Name" />
+
+        <TextView
+            android:id="@+id/edit_email"
+            style="@style/EditText_STYLE"
+            android:drawableStart="@drawable/email_icon"
+            android:drawableTint="@color/gray5"
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
+
+
+        <TextView
+            android:id="@+id/edit_date_birth"
+            style="@style/EditText_STYLE"
+            android:drawableTint="@color/gray5"
+            android:gravity="center_vertical"
+            android:drawableStart="@drawable/calendar_icon"
+            android:hint="Date Of Birth" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_profile_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/edit_text_rounded"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/_32sdp"
+                app:ccp_autoDetectLanguage="true"
+                app:ccp_defaultNameCode="GB"
+                app:ccp_textSize="14dp" />
+
+            <EditText
+                android:id="@+id/edit_mobile"
+                style="@style/EditText_STYLE"
+                android:drawableTint="@color/gray5"
+                android:inputType="phone"
+                android:drawableStart="@drawable/mobile_icon"
+                android:hint="Mobile Number"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
