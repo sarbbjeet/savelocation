@@ -10,9 +10,7 @@
     android:layout_height="match_parent"
     android:id="@+id/google_map"
     android:name="com.google.android.gms.maps.SupportMapFragment"/>
-
     />
-
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -29,5 +27,9 @@
             android:padding="10dp"
             />
     </LinearLayout>
+
+
+   <include layout="@layout/nearbylocation_dropdown_layout" />
+    <include layout="@layout/search_location_layout"/>
 
 </FrameLayout>

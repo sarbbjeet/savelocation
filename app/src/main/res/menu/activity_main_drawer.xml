@@ -25,9 +25,5 @@
             android:icon="@drawable/current_location_btn"
             android:title="My Location" />
 
-        <item
-            android:id="@+id/nav_searchLocation"
-            android:icon="@drawable/search_menu_icon"
-            android:title="Location Search" />
     </group>
 </menu>

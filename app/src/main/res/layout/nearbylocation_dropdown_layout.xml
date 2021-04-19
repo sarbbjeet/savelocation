@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/nearby_spinner_layout"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:layout_marginHorizontal="30dp"
+    android:layout_marginTop="10dp"
+    android:visibility="gone"
+    >
+
+<androidx.appcompat.widget.AppCompatSpinner
+    android:id="@+id/nearby_location_spinner"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_spinner_gray"
+    android:dropDownVerticalOffset="35dp"
+    android:entries="@array/locationCategoriesArray"
+    android:prompt="@string/location_list"
+    android:spinnerMode="dropdown" />
+
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:layout_centerInParent="true"
+    android:layout_marginEnd="@dimen/spinner_image_margin"
+    android:src="@android:drawable/arrow_down_float" />
+
+</RelativeLayout>

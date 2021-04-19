@@ -60,7 +60,7 @@ public class locationDetailActivity extends AppCompatActivity {
         Picasso.with(getApplicationContext()).load( nearbyLocationModel.getIconImg(index))
                 .resize(100, 125).into(iv_icon);
         tv_loc.setText(String.valueOf( nearbyLocationModel.getLat(index))
-                + ", "  + String.valueOf( nearbyLocationModel.getLat(index)));
+                + ", "  + String.valueOf( nearbyLocationModel.getLng(index)));
         tv_rating.setText(String.valueOf( nearbyLocationModel.getRating(index)));
         tv_Bstatus.setText( nearbyLocationModel.getBusinessStatus(index));
 
@@ -70,7 +70,7 @@ public class locationDetailActivity extends AppCompatActivity {
 
 
 
-        //back button click listener
+        //back button click listener, custom toolbar
         findViewById(R.id.toolbar_backBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,6 +89,7 @@ public class locationDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (insertLocationToSqlite()) {
                     toastMess("Successfully Location Added");
+                    onBackPressed();  //go back
                 } else {
                     toastMess("Error To Add Location!");
                 }

@@ -1,14 +1,9 @@
 package uk.ac.tees.a0321466;
 
 import android.os.Bundle;
-import android.view.View;
-import android.view.Menu;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,7 +16,6 @@ import androidx.viewpager.widget.ViewPager;
 import uk.ac.tees.a0321466.javaClass.SectionStatePageAdapter;
 import uk.ac.tees.a0321466.ui.FavoriteList;
 import uk.ac.tees.a0321466.ui.MyLocation;
-import uk.ac.tees.a0321466.ui.SearchLocation;
 import uk.ac.tees.a0321466.ui.home;
 import uk.ac.tees.a0321466.ui.profile;
 
@@ -43,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         sectionStatePageAdapter.addFragment(new home(), "home_fragment");
         sectionStatePageAdapter.addFragment(new MyLocation(), "mylocation_fragment");
         sectionStatePageAdapter.addFragment(new profile(), "profile_fragment");
-        sectionStatePageAdapter.addFragment(new SearchLocation(), "searchLocation_fragment");
         sectionStatePageAdapter.addFragment(new FavoriteList(), "favoriteList_fragment");
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_journeys, R.id.nav_profile,
-                R.id.nav_myLocation, R.id.nav_searchLocation)
+                R.id.nav_myLocation)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

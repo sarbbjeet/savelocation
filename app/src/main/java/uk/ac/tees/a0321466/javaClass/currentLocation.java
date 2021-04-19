@@ -88,6 +88,29 @@ function to create markers on the google map
         }
     }
 
+
+
+    /*
+function to create marker for typing search location
+ */
+    public void setSearchLocationMapMarker(LatLng latLngs, String name) {
+         mMap.clear();  //remove set markers from the google map
+
+        //set again current location marker
+        mMap.addMarker(new MarkerOptions().position(current_latLng).title("My Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.mycar)));
+
+        //Create Search location Marker
+        mMap.addMarker(new MarkerOptions().position(latLngs).title(name.toString()).snippet("type")
+                .icon(BitmapFromVector(this.activity.getApplicationContext(),R.drawable.location_icon_marker)));
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom((latLngs), DEFAULT_ZOOM);
+        mMap.animateCamera(location);
+
+    }
+
+
+
+
+
     //map focus towards current location and get current location latitude and longitude
     public void pointBackCurrentLocation() {
         try {

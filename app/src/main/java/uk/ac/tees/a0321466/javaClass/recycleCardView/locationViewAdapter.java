@@ -1,6 +1,7 @@
 package uk.ac.tees.a0321466.javaClass.recycleCardView;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,8 +54,12 @@ ex: when item is insert or delete from location list
         holder.addr.setText(location.getAddr());
         holder.rating.setText(location.getRating());
         //picasso is use to pass url link(image) to ImageView component
-        Picasso.with(this.context).load(location.getIconUrl()).resize(70, 70).into(holder.icon);
-
+        if(!location.getIconUrl().equalsIgnoreCase("")) {
+            Picasso.with(this.context).load(location.getIconUrl()).resize(70, 70).into(holder.icon);
+        }
+        else{
+           holder.icon.setImageResource(R.drawable.location_icon_marker);
+        }
         //delete button event listener (this is also a part of view component)
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override

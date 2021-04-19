@@ -15,7 +15,7 @@ public class GlobalClass extends Application {
 //    public static final String openCarChargerKey="0e57a4f7-496c-4468-9b16-91fa9a068f47";
 
     ///public static final String basicUrl="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=54.568760,-1.240210&radius=5000&type=map&sensor=true&key=";
-    //public static final String openCarChargerKey="AIzaSyDLJ5AoArpYWUeb3q84P0OftnHk5yZR788";
+    public static final String openKey="AIzaSyDLJ5AoArpYWUeb3q84P0OftnHk5yZR788";
 
     public static final int VOLLEY_TIMEOUT = 10000;  //10s timeout set of volley library response time
 

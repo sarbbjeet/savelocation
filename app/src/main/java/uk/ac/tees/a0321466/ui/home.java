@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
@@ -20,19 +21,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import org.json.JSONObject;
+
+import java.util.Arrays;
+import java.util.List;
+
+import javax.net.ssl.SSLEngineResult;
 
 import uk.ac.tees.a0321466.R;
 import uk.ac.tees.a0321466.javaClass.SectionStatePageAdapter;
@@ -40,11 +53,14 @@ import uk.ac.tees.a0321466.javaClass.currentLocation;
 import uk.ac.tees.a0321466.javaClass.getNearByLocationApi;
 import uk.ac.tees.a0321466.javaClass.GlobalClass;
 import uk.ac.tees.a0321466.javaClass.mapPermission;
+import uk.ac.tees.a0321466.javaClass.markerToFragmentCall;
 import uk.ac.tees.a0321466.javaClass.onCustomCallback;
 import uk.ac.tees.a0321466.javaClass.volleyResponseListener;
 import uk.ac.tees.a0321466.locationDetailActivity;
 import uk.ac.tees.a0321466.model.nearbyLocationModel;
 
+import static android.app.Activity.RESULT_OK;
+import static uk.ac.tees.a0321466.javaClass.GlobalClass.openKey;
 import static uk.ac.tees.a0321466.javaClass.GlobalClass.search_type;
 
 public class home extends Fragment {
@@ -56,6 +72,10 @@ public class home extends Fragment {
     private GlobalClass gVariables; //user can access data from any activity
     private getNearByLocationApi getNearByLocation_api;
     private nearbyLocationModel apiHandler;
+    TextView tv_search;
+    RelativeLayout spinnerLayout;  //to handle dropdown nearby services list
+    Place searchPlace;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,7 +83,10 @@ public class home extends Fragment {
 
         //Initialize view
         View view = inflater.inflate(R.layout.fragment_home2, container, false);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true); //toolbar menu visable
+
+
+        spinnerLayout=view.findViewById(R.id.nearby_spinner_layout);
 
 
         getLocation = new currentLocation(getActivity());  //initialize currentLocation class to get location and set marker
@@ -90,6 +113,12 @@ public class home extends Fragment {
             }
         });
 
+        //add spinner logic to drop down nearby location services
+        spinnerListner(view);
+        //add logic for location search by typing
+        locationSearchByTyping(view);
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //map fragment initilize
         SupportMapFragment supportMapFragment = (SupportMapFragment)
@@ -105,16 +134,11 @@ public class home extends Fragment {
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        if (marker.getTitle().equalsIgnoreCase("My Location")) {
-                            //Toast.makeText(getActivity(),"my location",Toast.LENGTH_SHORT).show();
-                            FragmentManager fm = getFragmentManager();
-                            FragmentTransaction ft = fm.beginTransaction();
-                            ft.replace(R.id.nav_host_fragment, new MyLocation()).commit();
-                        } else {
-                            Intent intent = new Intent(getActivity(), locationDetailActivity.class);
-                            intent.putExtra("index", Integer.valueOf(marker.getSnippet()));
-                            startActivity(intent);
-                        }
+                        /* below function contain fragment based conditions
+                        and it pass data to mylocation fragment and nearby
+                         */
+                        new markerToFragmentCall(getActivity(),getFragmentManager())
+                         .fragmentConditions(marker,searchPlace);
                     }
                 });
 
@@ -133,6 +157,7 @@ public class home extends Fragment {
         return view;
     }
 
+
     /* menu created on the toolbar listener
        */
     @Override
@@ -140,22 +165,23 @@ public class home extends Fragment {
         inflater.inflate(R.menu.custom_menu,menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.location_search:
-                //set toolbar title /
+                //set toolbar title //
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Search..");
+                 spinnerLayout.setVisibility(RelativeLayout.VISIBLE); //visible now //layout visible
 
                 return true;
             case R.id.items_dropDown:
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Select Nearby Service");
+                spinnerLayout.setVisibility(RelativeLayout.GONE); //INvisible now
 
                 return true;
             case R.id.items_mic:
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Speak for search");
+                spinnerLayout.setVisibility(RelativeLayout.GONE); //INvisible now
 
                 return true;
             default:
@@ -167,18 +193,18 @@ public class home extends Fragment {
 
 
 
+
     /* function to handle spinner which havig nearby location services,
     main task of spinner to get user input and send to the google map server, after that create the marker
     with getting api resonse from google api server
      */
 
-    public void spinnerListner(MenuItem item) {
+    public void spinnerListner(View view) {
         //spinner to select nearby location type/////////////////////////////////////////////////////
-       // MenuItem searchItem = menu.findItem(R.id.items_dropDown);
+        Spinner spinner = view.findViewById(R.id.nearby_location_spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getActivity(), android.R.layout.simple_spinner_item, search_type);
 
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, search_type);
-        Spinner spinner = (Spinner) MenuItemCompat.getActionView(item); // get the spinner
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(
@@ -223,5 +249,63 @@ public class home extends Fragment {
 
                     }
                 });
+    }
+
+
+    /* logic for autocomplete search "Location search by typing"
+
+     */
+
+    private void locationSearchByTyping(View view){
+
+        Places.initialize(getActivity(),openKey);
+        tv_search=view.findViewById(R.id.tv_searchLocation);
+        //et_search.setFocusable(false);
+
+        tv_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //place field list
+                List<Place.Field> placeList = Arrays.asList(Place.Field.ADDRESS
+                        ,Place.Field.LAT_LNG,Place.Field.NAME);
+                //intent create
+
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY
+                        ,placeList).build(getActivity());
+
+                //start activity
+                startActivityForResult(intent,100);
+
+            }
+        });
+
+
+    }
+
+
+
+    /* wait for all places results, this method will run when all places data
+    loaded after that we can search location which we want by typing on the google
+    search location
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode==100 && resultCode == RESULT_OK){
+        //success
+        searchPlace = Autocomplete.getPlaceFromIntent(data);  //Place
+
+        tv_search.setText(String.format(" %s", searchPlace.getName()));
+        getLocation.setSearchLocationMapMarker(searchPlace.getLatLng(),searchPlace.getName());  //set marker
+//       Toast.makeText(getActivity(), String.valueOf(searchPlace.getLatLng()),Toast.LENGTH_SHORT).show();
+
+    }else if(resultCode == AutocompleteActivity.RESULT_ERROR){
+        //if error
+        //status Initialize
+        Status status= Autocomplete.getStatusFromIntent(data);
+        Toast.makeText(getActivity(),status.getStatusMessage().toString(),Toast.LENGTH_SHORT).show();
+
+    }
     }
 }

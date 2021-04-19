@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MyLocation">
 
     <LinearLayout
-
+       android:id="@+id/info_layout"
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -246,6 +246,43 @@
             android:layout_marginBottom="5dp"
             android:background="@color/DarkGray"
             ></LinearLayout>
+
     </LinearLayout>
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:id="@+id/btns_group1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="50dp"
+            android:visibility="gone"
+
+            >
+
+            <Button
+                android:id="@+id/btn_back_myLoc"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="BACK"
+                android:backgroundTint="@color/location_banner"
+                android:drawableLeft="@drawable/back_arrow"
+                />
+
+            <Button
+                android:id="@+id/btn_fav_myLoc"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="160dp"
+                android:backgroundTint="@color/location_banner"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:drawableLeft="@drawable/favorite"
+                />
+
+        </LinearLayout>
+
+
+
+</RelativeLayout>

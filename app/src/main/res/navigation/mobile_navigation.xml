@@ -28,9 +28,4 @@
         android:label="My Location"
         tools:layout="@layout/fragment_my_location" />
 
-    <fragment
-        android:id="@+id/nav_searchLocation"
-        android:name="uk.ac.tees.a0321466.ui.SearchLocation"
-        android:label="Search Location"
-        tools:layout="@layout/fragment_search_location" />
 </navigation>
