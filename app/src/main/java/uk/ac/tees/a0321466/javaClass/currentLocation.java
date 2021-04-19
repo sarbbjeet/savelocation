@@ -93,14 +93,14 @@ function to create markers on the google map
     /*
 function to create marker for typing search location
  */
-    public void setSearchLocationMapMarker(LatLng latLngs, String name) {
+    public void setSearchLocationMapMarker(LatLng latLngs, String name,String tag) {
          mMap.clear();  //remove set markers from the google map
 
         //set again current location marker
         mMap.addMarker(new MarkerOptions().position(current_latLng).title("My Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.mycar)));
 
         //Create Search location Marker
-        mMap.addMarker(new MarkerOptions().position(latLngs).title(name.toString()).snippet("type")
+        mMap.addMarker(new MarkerOptions().position(latLngs).title(name.toString()).snippet(tag)
                 .icon(BitmapFromVector(this.activity.getApplicationContext(),R.drawable.location_icon_marker)));
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom((latLngs), DEFAULT_ZOOM);
         mMap.animateCamera(location);

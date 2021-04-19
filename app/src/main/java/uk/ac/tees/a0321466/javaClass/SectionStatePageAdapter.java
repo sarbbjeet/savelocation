@@ -1,3 +1,8 @@
+
+/* this adapter is to manage fragment call, we can can any fragment
+from any directory or class of this project
+ */
+
 package uk.ac.tees.a0321466.javaClass;
 
 import androidx.annotation.NonNull;

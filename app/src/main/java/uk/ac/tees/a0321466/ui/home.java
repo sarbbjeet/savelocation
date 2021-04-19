@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +37,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -81,6 +83,7 @@ public class home extends Fragment {
     RelativeLayout spinnerLayout;  //to handle dropdown nearby services list
     RelativeLayout searchLayout;  //to handle search location
     Place searchPlace;
+    List<Address> voiceLocationArray;
 
 
     @Override
@@ -145,7 +148,7 @@ public class home extends Fragment {
                         and it pass data to mylocation fragment and nearby
                          */
                         new markerToFragmentCall(getActivity(),getFragmentManager())
-                         .fragmentConditions(marker,searchPlace);
+                         .fragmentConditions(marker,searchPlace,voiceLocationArray); //pass arrays
                     }
                 });
 
@@ -317,7 +320,7 @@ public class home extends Fragment {
         searchPlace = Autocomplete.getPlaceFromIntent(data);  //Place
 
         tv_search.setText(String.format(" %s", searchPlace.getName()));
-        getLocation.setSearchLocationMapMarker(searchPlace.getLatLng(),searchPlace.getName());  //set marker
+        getLocation.setSearchLocationMapMarker(searchPlace.getLatLng(),searchPlace.getName(),"typing");  //set marker
 //       Toast.makeText(getActivity(), String.valueOf(searchPlace.getLatLng()),Toast.LENGTH_SHORT).show();
 
     }else if(resultCode == AutocompleteActivity.RESULT_ERROR){
@@ -339,9 +342,15 @@ public class home extends Fragment {
                 startActivity(camera);
             }
             else if(!voice.equalsIgnoreCase("")){
-                List<Address> addresses=new textToLocationConverter_Geo(getActivity()).geoLocate(voice);
-                if(addresses.size()>0){
-                   // Toast.makeText(getActivity(),addresses.get(0).toString(),Toast.LENGTH_LONG).show();
+               voiceLocationArray=new textToLocationConverter_Geo(getActivity()).geoLocate(voice);
+                if(voiceLocationArray.size()>0){
+                    Log.d(
+                            "t2",voiceLocationArray.get(0).toString()
+                    );
+                    double lat1 = voiceLocationArray.get(0).getLatitude();
+                    double lng1 = voiceLocationArray.get(0).getLongitude();
+                    String palceName= voiceLocationArray.get(0).getFeatureName();
+                    getLocation.setSearchLocationMapMarker(new LatLng(lat1,lng1),palceName,"voice");  //set marker
                 }
                 else{
                     splashMsg("Sorry enable to find Address!!");
@@ -349,7 +358,7 @@ public class home extends Fragment {
             }
         }
         else{
-           splashMsg("google assistant error !!");
+         //  splashMsg("google assistant error !!");
         }
 
     }

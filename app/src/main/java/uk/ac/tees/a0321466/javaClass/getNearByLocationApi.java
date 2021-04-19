@@ -1,3 +1,7 @@
+/* this class is using volley library to get nearby api from the google map server
+
+ */
+
 package uk.ac.tees.a0321466.javaClass;
 
 import android.content.Context;

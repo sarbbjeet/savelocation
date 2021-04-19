@@ -59,7 +59,6 @@ public class MyLocation extends Fragment {
         saveBackBtnLayout = view.findViewById(R.id.btns_group1);
 
         /* view component id  get
-
          */
         tv_addr=view.findViewById(R.id.myAddr);
         tv_city=view.findViewById(R.id.myCity);
@@ -67,7 +66,7 @@ public class MyLocation extends Fragment {
         tv_country=view.findViewById(R.id.myCountry);
         tv_lat=view.findViewById(R.id.myLat);
         tv_lng=view.findViewById(R.id.myLng);
-          /* data from parent fragment */
+        /* data from parent fragment */
 
 
         if(getArguments() !=null) {
@@ -79,16 +78,16 @@ public class MyLocation extends Fragment {
             rating = getArguments().getDouble("rating");
 
         }
-       if(!nav_name.equalsIgnoreCase("")){
-           //set toolbar title /
-           ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(nav_name);
+        if(!nav_name.equalsIgnoreCase("")){
+            //set toolbar title /
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(nav_name);
 
-       }
-       else{
-           //set toolbar default title  /
-           ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("My Location");
-       }
-       /////////////////////////////////////////////
+        }
+        else{
+            //set toolbar default title  /
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("My Location");
+        }
+        /////////////////////////////////////////////
         gVariables =(GlobalClass)getActivity().getApplication();
         mp= new mapPermission(getActivity(), new onCustomCallback() {
             @Override
@@ -121,23 +120,23 @@ public class MyLocation extends Fragment {
 
 
 
-    /* Save button event listner */
+        /* Save button event listner */
         view.findViewById(R.id.btn_fav_myLoc).setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
 
-            if (insertLocationToSqlite()) {
-                toastMess("Successfully Location Added");
-               // getActivity().onBackPressed();  //go back
-            } else {
-                toastMess("Error To Add Location!");
+                if (insertLocationToSqlite()) {
+                    toastMess("Successfully Location Added");
+                   // getActivity().onBackPressed();  //go back
+                } else {
+                    toastMess("Error To Add Location!");
+                }
+
             }
+        });
 
-        }
-    });
-
-    return view ;
-}
+        return view ;
+    }
 
 
     private boolean  insertLocationToSqlite(){
@@ -154,9 +153,8 @@ public class MyLocation extends Fragment {
     }
 
 
-/* function to get name of location with the help of latitiude and longitude value
-
- */
+    /* function to get name of location with the help of latitiude and longitude value
+     */
     private void setMyLocationInfo(Location lastKnownLocation) {
         Geocoder geocoder;
         List<Address> addresses;
@@ -172,7 +170,6 @@ public class MyLocation extends Fragment {
             String knownName = addresses.get(0).getFeatureName();
 
             /* print above data to my location fragment
-
              */
             List l  = Arrays.asList(address.split(","));
             List k  = Arrays.asList(String.valueOf(l.get(1)).split(" "));
@@ -195,34 +192,34 @@ public class MyLocation extends Fragment {
 
 
     private void setSearchLocationInfo(String addr, double lat, double lng){
-     try{
-        String city,street,postalCode,country;
-         List<String> addrArr = Arrays.asList(addr.split(","));
-         if(addrArr.size()>=4){
-             city=String.valueOf(addrArr.get(1));
-             street=String.valueOf(addrArr.get(0));
-             postalCode=String.valueOf(addrArr.get(2));;
-             country=String.valueOf(addrArr.get(3));
-         }
-         else {
-             city=String.valueOf(addrArr.get(1));
-             street=String.valueOf(addrArr.get(0));
-             postalCode=String.valueOf(addrArr.get(3));;
-             country=String.valueOf(addrArr.get(4));
-         }
+        try{
+            String city,street,postalCode,country;
+            List<String> addrArr = Arrays.asList(addr.split(","));
+            if(addrArr.size()>=4){
+                city=String.valueOf(addrArr.get(1));
+                street=String.valueOf(addrArr.get(0));
+                postalCode=String.valueOf(addrArr.get(2));;
+                country=String.valueOf(addrArr.get(3));
+            }
+            else {
+                city=String.valueOf(addrArr.get(1));
+                street=String.valueOf(addrArr.get(0));
+                postalCode=String.valueOf(addrArr.get(3));;
+                country=String.valueOf(addrArr.get(4));
+            }
 
-         tv_addr.setText(street);
-         tv_city.setText(city);
-         tv_postcode.setText(postalCode);
-         tv_country.setText(country);
-         tv_lat.setText(String.valueOf(lat));
-         tv_lat.setText(String.valueOf(lng));
-
-
-     }catch (Exception io){
+            tv_addr.setText(street);
+            tv_city.setText(city);
+            tv_postcode.setText(postalCode);
+            tv_country.setText(country);
+            tv_lat.setText(String.valueOf(lat));
+            tv_lat.setText(String.valueOf(lng));
 
 
-     }
+        }catch (Exception io){
+
+
+        }
 
 
     }

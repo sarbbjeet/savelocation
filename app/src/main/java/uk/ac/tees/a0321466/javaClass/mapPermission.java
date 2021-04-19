@@ -1,3 +1,6 @@
+/* map permissions to access google map
+
+ */
 package uk.ac.tees.a0321466.javaClass;
 
 import android.Manifest;

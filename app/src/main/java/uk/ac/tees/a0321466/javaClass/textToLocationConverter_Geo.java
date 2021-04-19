@@ -1,3 +1,8 @@
+/* with the help of locatio name we can get Latitude and longitude
+with the help of the class and method.
+just pass location name and get List<Address> as a response
+ */
+
 package uk.ac.tees.a0321466.javaClass;
 
 import android.content.Context;
