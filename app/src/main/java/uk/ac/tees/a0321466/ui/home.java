@@ -3,6 +3,7 @@ package uk.ac.tees.a0321466.ui;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,6 +45,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,6 +59,7 @@ import uk.ac.tees.a0321466.javaClass.GlobalClass;
 import uk.ac.tees.a0321466.javaClass.mapPermission;
 import uk.ac.tees.a0321466.javaClass.markerToFragmentCall;
 import uk.ac.tees.a0321466.javaClass.onCustomCallback;
+import uk.ac.tees.a0321466.javaClass.textToLocationConverter_Geo;
 import uk.ac.tees.a0321466.javaClass.volleyResponseListener;
 import uk.ac.tees.a0321466.locationDetailActivity;
 import uk.ac.tees.a0321466.model.nearbyLocationModel;
@@ -187,6 +192,7 @@ public class home extends Fragment {
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Speak for search");
                 spinnerLayout.setVisibility(RelativeLayout.GONE); //INvisible now
                 searchLayout.setVisibility(RelativeLayout.GONE); //Invisible
+                openVoiceDialog();
 
                 return true;
             default:
@@ -287,6 +293,15 @@ public class home extends Fragment {
 
     }
 
+    /* open google assistant */
+
+    private void openVoiceDialog(){
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        startActivityForResult(intent,200);
+
+    }
+
 
 
     /* wait for all places results, this method will run when all places data
@@ -296,7 +311,7 @@ public class home extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+/* code for google search location */
     if (requestCode==100 && resultCode == RESULT_OK){
         //success
         searchPlace = Autocomplete.getPlaceFromIntent(data);  //Place
@@ -312,5 +327,37 @@ public class home extends Fragment {
         Toast.makeText(getActivity(),status.getStatusMessage().toString(),Toast.LENGTH_SHORT).show();
 
     }
+    //////////////////////////////////////////////////////////
+        /* code for google voice assistant */
+        if (requestCode==200 && resultCode == RESULT_OK){
+            ArrayList<String> list=data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            String voice = list.get(0);
+
+
+            if(voice.equalsIgnoreCase("open camera")){
+                Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivity(camera);
+            }
+            else if(!voice.equalsIgnoreCase("")){
+                List<Address> addresses=new textToLocationConverter_Geo(getActivity()).geoLocate(voice);
+                if(addresses.size()>0){
+                   // Toast.makeText(getActivity(),addresses.get(0).toString(),Toast.LENGTH_LONG).show();
+                }
+                else{
+                    splashMsg("Sorry enable to find Address!!");
+                }
+            }
+        }
+        else{
+           splashMsg("google assistant error !!");
+        }
+
+    }
+
+    /* method to print toast msg
+
+    */
+    private void splashMsg(String msg){
+        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
     }
 }
