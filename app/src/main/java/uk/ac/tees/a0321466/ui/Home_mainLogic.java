@@ -70,7 +70,7 @@ import static android.app.Activity.RESULT_OK;
 import static uk.ac.tees.a0321466.javaClass.GlobalClass.openKey;
 import static uk.ac.tees.a0321466.javaClass.GlobalClass.search_type;
 
-public class home extends Fragment {
+public class Home_mainLogic extends Fragment {
     //create reference to classes
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;

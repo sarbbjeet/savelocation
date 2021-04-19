@@ -16,7 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 import uk.ac.tees.a0321466.javaClass.SectionStatePageAdapter;
 import uk.ac.tees.a0321466.ui.FavoriteList;
 import uk.ac.tees.a0321466.ui.MyLocation;
-import uk.ac.tees.a0321466.ui.home;
+import uk.ac.tees.a0321466.ui.Home_mainLogic;
 import uk.ac.tees.a0321466.ui.profile;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* code for pager adapter to access fragment (custom changes)*/
         sectionStatePageAdapter =new SectionStatePageAdapter(getSupportFragmentManager());
-        sectionStatePageAdapter.addFragment(new home(), "home_fragment");
+        sectionStatePageAdapter.addFragment(new Home_mainLogic(), "home_fragment");
         sectionStatePageAdapter.addFragment(new MyLocation(), "mylocation_fragment");
         sectionStatePageAdapter.addFragment(new profile(), "profile_fragment");
         sectionStatePageAdapter.addFragment(new FavoriteList(), "favoriteList_fragment");
