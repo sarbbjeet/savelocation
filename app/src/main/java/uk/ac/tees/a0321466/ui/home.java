@@ -74,6 +74,7 @@ public class home extends Fragment {
     private nearbyLocationModel apiHandler;
     TextView tv_search;
     RelativeLayout spinnerLayout;  //to handle dropdown nearby services list
+    RelativeLayout searchLayout;  //to handle search location
     Place searchPlace;
 
 
@@ -87,6 +88,7 @@ public class home extends Fragment {
 
 
         spinnerLayout=view.findViewById(R.id.nearby_spinner_layout);
+        searchLayout=view.findViewById(R.id.search_layout);
 
 
         getLocation = new currentLocation(getActivity());  //initialize currentLocation class to get location and set marker
@@ -170,18 +172,21 @@ public class home extends Fragment {
         switch (item.getItemId()) {
             case R.id.location_search:
                 //set toolbar title //
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Search..");
-                 spinnerLayout.setVisibility(RelativeLayout.VISIBLE); //visible now //layout visible
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Search Location");
+                searchLayout.setVisibility(RelativeLayout.VISIBLE); //visible now //layout visible
+                spinnerLayout.setVisibility(RelativeLayout.GONE); //Invisible
 
                 return true;
             case R.id.items_dropDown:
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Select Nearby Service");
-                spinnerLayout.setVisibility(RelativeLayout.GONE); //INvisible now
+                searchLayout.setVisibility(RelativeLayout.GONE); //INvisible now
+                spinnerLayout.setVisibility(RelativeLayout.VISIBLE); //Visible
 
                 return true;
             case R.id.items_mic:
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Speak for search");
                 spinnerLayout.setVisibility(RelativeLayout.GONE); //INvisible now
+                searchLayout.setVisibility(RelativeLayout.GONE); //Invisible
 
                 return true;
             default:

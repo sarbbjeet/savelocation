@@ -128,7 +128,7 @@ public class MyLocation extends Fragment {
 
             if (insertLocationToSqlite()) {
                 toastMess("Successfully Location Added");
-                getActivity().onBackPressed();  //go back
+               // getActivity().onBackPressed();  //go back
             } else {
                 toastMess("Error To Add Location!");
             }
