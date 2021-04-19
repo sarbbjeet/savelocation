@@ -23,7 +23,7 @@
 
         <EditText
             android:layout_marginTop="5dp"
-            android:id="@+id/et_firstname"
+            android:id="@+id/et_firstname1"
             android:inputType="textFilter|textNoSuggestions"
             style="@style/EditText_STYLE"
             android:drawableTint="@color/gray5"
@@ -48,6 +48,7 @@
             android:inputType="textPassword" />
 
         <ProgressBar
+            android:id="@+id/progress_bar_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -66,7 +67,7 @@
             />
 
         <TextView
-            android:id="@+id/tv_btnLogin"
+            android:id="@+id/tv_openLogin"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
