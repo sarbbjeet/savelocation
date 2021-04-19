@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:id="@+id/login_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/_15sdp"
+        android:layout_marginBottom="100dp"
+        android:visibility="gone"
+
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginVertical="10dp"
+            android:src="@drawable/login_logo"
+            android:layout_marginBottom="20dp"
+            />
+
+
+        <EditText
+            android:id="@+id/et_email_login"
+            style="@style/EditText_STYLE"
+            android:drawableStart="@drawable/email_icon"
+            android:drawableTint="@color/gray5"
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/et_password_login"
+            style="@style/EditText_STYLE"
+            android:drawableStart="@drawable/password_icon"
+            android:drawableTint="@color/gray5"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+<ProgressBar
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:visibility="gone"
+    />
+
+        <Button
+            android:layout_marginTop="15dp"
+            android:id="@+id/btn_signIn"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/location_banner"
+            android:layout_height="wrap_content"
+            android:text="Login Here"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_btnRegisterHere"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New User? Login here"
+
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

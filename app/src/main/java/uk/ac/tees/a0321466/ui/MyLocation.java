@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -57,6 +58,7 @@ public class MyLocation extends Fragment {
 
         View view= inflater.inflate(R.layout.fragment_my_location, container, false);
         saveBackBtnLayout = view.findViewById(R.id.btns_group1);
+
 
         /* view component id  get
          */

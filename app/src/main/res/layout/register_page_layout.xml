@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/register_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/_15sdp"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="100dp"
+
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/register_logo"
+            />
+
+        <EditText
+            android:layout_marginTop="5dp"
+            android:id="@+id/et_firstname"
+            android:inputType="textFilter|textNoSuggestions"
+            style="@style/EditText_STYLE"
+            android:drawableTint="@color/gray5"
+            android:drawableStart="@drawable/user_name"
+            android:hint="First Name" />
+
+
+        <EditText
+            android:id="@+id/et_email"
+            style="@style/EditText_STYLE"
+            android:drawableStart="@drawable/email_icon"
+            android:drawableTint="@color/gray5"
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/et_password"
+            style="@style/EditText_STYLE"
+            android:drawableStart="@drawable/password_icon"
+            android:drawableTint="@color/gray5"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+           android:visibility="gone"
+            />
+
+        <Button
+            android:layout_marginTop="15dp"
+            android:id="@+id/btn_signUp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/location_banner"
+            android:layout_height="wrap_content"
+            android:text="Register"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_btnLogin"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have account? Login here"
+
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
