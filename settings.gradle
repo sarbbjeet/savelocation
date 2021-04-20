@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "PlugPoint"
+rootProject.name = "Save Locations"

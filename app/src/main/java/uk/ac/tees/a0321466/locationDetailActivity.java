@@ -57,7 +57,7 @@ public class locationDetailActivity extends AppCompatActivity {
         //set values to view components
         tv_name.setText( nearbyLocationModel.getName(index));
         tv_addr.setText( nearbyLocationModel.getAddr(index));
-        Picasso.with(getApplicationContext()).load( nearbyLocationModel.getIconImg(index))
+        Picasso.get().load( nearbyLocationModel.getIconImg(index))
                 .resize(100, 125).into(iv_icon);
         tv_loc.setText(String.valueOf( nearbyLocationModel.getLat(index))
                 + ", "  + String.valueOf( nearbyLocationModel.getLng(index)));

@@ -24,14 +24,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PlugPoint">
         <activity android:name=".SignUpActivity">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity android:name=".SplashScreenActivity" />
+        <activity android:name=".SplashScreenActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity android:name=".locationDetailActivity" />
         <activity
             android:name=".MainActivity"

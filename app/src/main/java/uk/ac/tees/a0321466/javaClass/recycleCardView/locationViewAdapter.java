@@ -55,7 +55,7 @@ ex: when item is insert or delete from location list
         holder.rating.setText(location.getRating());
         //picasso is use to pass url link(image) to ImageView component
         if(!location.getIconUrl().equalsIgnoreCase("")) {
-            Picasso.with(this.context).load(location.getIconUrl()).resize(70, 70).into(holder.icon);
+            Picasso.get().load(location.getIconUrl()).resize(70, 70).into(holder.icon);
         }
         else{
            holder.icon.setImageResource(R.drawable.location_icon_marker);

@@ -23,8 +23,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_roundImage"
-        android:layout_width="@dimen/_80sdp"
-        android:layout_height="@dimen/_80sdp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/user_account_icon"
