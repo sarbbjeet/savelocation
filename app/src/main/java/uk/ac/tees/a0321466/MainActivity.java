@@ -2,6 +2,7 @@ package uk.ac.tees.a0321466;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -38,6 +39,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.io.File;
 
+import uk.ac.tees.a0321466.javaClass.AirplaneModeBroadcastReceiver;
 import uk.ac.tees.a0321466.javaClass.MySharedPref22;
 import uk.ac.tees.a0321466.javaClass.SectionStatePageAdapter;
 import uk.ac.tees.a0321466.ui.FavoriteList;
@@ -45,6 +47,7 @@ import uk.ac.tees.a0321466.ui.MyLocation;
 import uk.ac.tees.a0321466.ui.Home_mainLogic;
 import uk.ac.tees.a0321466.ui.profile;
 
+import static android.content.Intent.ACTION_AIRPLANE_MODE_CHANGED;
 import static uk.ac.tees.a0321466.javaClass.MySharedPref22.IMAGE;
 
 public class MainActivity extends AppCompatActivity {
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     StorageReference fileRef;
     String imagelink;
     ImageView imageView; // profile image view component
-
+    AirplaneModeBroadcastReceiver airplaneModeBroadcastReceiver =new AirplaneModeBroadcastReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         mySharedPref22 = MySharedPref22.getInstance(MainActivity.this);
-
 
         /* code for pager adapter to access fragment (custom changes)*/
         sectionStatePageAdapter =new SectionStatePageAdapter(getSupportFragmentManager());
@@ -233,9 +235,20 @@ public class MainActivity extends AppCompatActivity {
                 Picasso.get().load(uri).into(imageView);
             }
         });
-
-
-        Toast.makeText(getApplicationContext(),"menu",Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter(ACTION_AIRPLANE_MODE_CHANGED);
+        registerReceiver(airplaneModeBroadcastReceiver,intentFilter);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(airplaneModeBroadcastReceiver);
     }
 }

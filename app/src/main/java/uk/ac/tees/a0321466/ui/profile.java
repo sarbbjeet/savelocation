@@ -154,8 +154,6 @@ public class profile extends Fragment implements DatePickerDialog.OnDateSetListe
 
     }
 
-
-
 /* store data to firebase firestore */
     private void storeUserData(){
         userId = fAuth.getCurrentUser().getUid();
