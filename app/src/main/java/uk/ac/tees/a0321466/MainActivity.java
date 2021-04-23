@@ -25,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -56,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
     TextView username;
     MySharedPref22 mySharedPref22;
     StorageReference storageReference;
+    StorageReference fileRef;
+    String imagelink;
+    ImageView imageView; // profile image view component
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,19 +96,22 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        /* drawer side menu event listener
+         */
+
 
         View hView = navigationView.getHeaderView(0);
         username = hView.findViewById(R.id.nav_user_name);
         username.setText(mySharedPref22.getName());
-        ImageView imageView = hView.findViewById(R.id.nav_user_image);
+        imageView = hView.findViewById(R.id.nav_user_image);
 
         /* read fire cloud store image*/
 
           /* read the cloud store image using storage reference
        do some modifications here in the name of profile name because i want to store images for every user
          */
-        String imagelink = "users/"+ fAuth.getCurrentUser().getUid() + "/profile.jpg";
-        StorageReference fileRef= storageReference.child(imagelink);
+        imagelink = "users/"+ fAuth.getCurrentUser().getUid() + "/profile.jpg";
+        fileRef= storageReference.child(imagelink);
         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -208,5 +216,26 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        /* Reload profile image and name when menu presses
+         */
+        username.setText(mySharedPref22.getName());
+        imagelink = "users/"+ fAuth.getCurrentUser().getUid() + "/profile.jpg";
+        fileRef= storageReference.child(imagelink);
+        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(imageView);
+            }
+        });
+
+
+        Toast.makeText(getApplicationContext(),"menu",Toast.LENGTH_SHORT).show();
+        return super.onOptionsItemSelected(item);
     }
 }

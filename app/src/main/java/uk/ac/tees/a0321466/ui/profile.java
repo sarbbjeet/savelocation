@@ -164,7 +164,7 @@ public class profile extends Fragment implements DatePickerDialog.OnDateSetListe
         Map<String, Object> user = new HashMap<>();
         user.put("firstName", firstName);
         user.put("lastName", lastName);
-        //user.put("email", _email);  //email should not change
+        user.put("email", _email);
         user.put("DOB", _dateOfBirth);
         user.put("mobile", mobile);
 
@@ -176,6 +176,8 @@ public class profile extends Fragment implements DatePickerDialog.OnDateSetListe
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getActivity(), "Successfully data store on the firebase", Toast.LENGTH_SHORT).show();
                         boolean isSuccess = true;
+                        MySharedPref22.getInstance(getActivity())
+                                .saveName(firstName);
                       // Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                     }
                 })
@@ -221,6 +223,7 @@ public class profile extends Fragment implements DatePickerDialog.OnDateSetListe
                                 et_email.setText(email);
                                 tv_dob.setText(dob);
                                 et_mobile.setText(_mobile);
+
 
 //                                String imagePath = mySharedPref22.getValue(IMAGE);
 //
