@@ -1,6 +1,8 @@
-# savelocation
+# Save Location
  This app helps to manage favorite list of user. 
+ 
 This app has integrated google "location autocomplete" feature.
+
 Google assistant is also very useful feature of this app, It helps to search
   location and mark on the google map by just speak name of the location.
 Card list to easily view and delete favouite list items.
